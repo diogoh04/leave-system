@@ -100,7 +100,7 @@ if (!mounted) return null
   const token = localStorage.getItem("token")
 
   await fetch(`/api/leaves/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`
@@ -111,6 +111,10 @@ if (!mounted) return null
   fetchLeaves() 
 
   }
+
+  function formatDate(date: string) {
+  return new Date(date).toLocaleDateString("pt-PT")
+}
 
   // UI
   return (
@@ -153,9 +157,9 @@ if (!mounted) return null
         <tbody>
           {leaves.map((leave: any) => (
             <tr key={leave.id}>
-              <td style={td}>{leave.user?.email}</td>
+              <td style={td}>{leave.user?.name}</td>
               <td style={td}>
-                {new Date(leave.startDate).toLocaleDateString()}
+                {new formatDate(leave.startDate).toLocaleDateString()}
               </td>
               <td style={td}>
                 {new Date(leave.endDate).toLocaleDateString()}

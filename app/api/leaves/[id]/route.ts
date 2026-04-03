@@ -15,7 +15,7 @@ export async function PATCH(
   const { status } = await req.json()
 
   const leave = await prisma.leaveRequest.update({
-    where: { id: Number(id) },
+    where: { id: Number((await params).id) },
     data: { status },
   })
 
