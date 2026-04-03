@@ -57,10 +57,19 @@ if (!mounted) return null
  async function fetchLeaves() {
   const token = localStorage.getItem("token")
 
-  console.log("TOKEN:", token)
-
   if (!token) {
-    console.error("❌ SEM TOKEN")
+    window.location.href = "/login"
+    return
+  }
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]))
+
+    if (payload.role !== "ADMIN") {
+      window.location.href = "/dashboard"
+      return
+    }
+  } catch {
+    window.location.href = "/login"
     return
   }
 

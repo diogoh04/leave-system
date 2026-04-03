@@ -39,13 +39,14 @@ export async function POST(req: Request) {
         email: user.email,
         role: user.role,
       },
-      process.env.JWT_SECRET!,
+      process.env.JWT_SECRET! || "segredo_super_secreto",
       { expiresIn: "1d" }
     )
 
     return Response.json({
       message: "Login realizado com sucesso",
       token,
+      role: user.role,
     })
   } catch (error) {
     return Response.json(
