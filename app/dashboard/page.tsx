@@ -145,21 +145,21 @@ return (
     if (users.length >= 1) return "busy-day"
     return ""
   }}
-  tileContent={({ date }) => {
-    const key = date.toISOString().split("T")[0]
-    const users = fullDates[key]
+tileContent={({ date }) => {
+  const key = date.toISOString().split("T")[0]
+  const users = fullDates[key] || []
 
-    if (!users) return null
+  if (users.length === 0) return null
 
-    return (
-      <div style={{ fontSize: 8, marginTop: 2 }}>
-        {users.slice(0, 2).map((name, i) => (
-          <div key={i}>{name}</div>
-        ))}
-        {users.length > 2 && <div>+{users.length - 2}</div>}
-      </div>
-    )
-  }}
+  return (
+    <div style={{ fontSize: 9, marginTop: 2 }}>
+      {users.slice(0, 2).map((name, i) => (
+        <div key={i}>{String(name)}</div>
+      ))}
+      {users.length > 2 && <div>+{users.length - 2}</div>}
+    </div>
+  )
+}}
 />
 </div>
 
