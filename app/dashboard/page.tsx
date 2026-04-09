@@ -1,12 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import  DatePicker  from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 export default function DashboardPage() {
   const [leaves, setLeaves] = useState<any[]>([])
-  const [startDate, setStartDate] = useState("")
-  const [endDate, setEndDate] = useState("")
+  const [startDate, setStartDate] = useState<any>(null)
+  const [endDate, setEndDate] = useState<any>(null)
   const [type, setType] = useState("Paid")
+  const [fullDates, setFullDates] = useState<any[]>([])
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -15,7 +18,7 @@ export default function DashboardPage() {
       window.location.href = "/login"
       return
     }
-
+    fetchFullDates()
     fetchMyLeaves()
   }, [])
 
@@ -38,9 +41,21 @@ export default function DashboardPage() {
     setLeaves(data)
   }
 
+  async function fetchFullDates() {
+  const res = await fetch("/api/leaves/full-dates")
+  const data = await res.json()
+
+  const parsed = data.map((d: string) => new Date(d))
+  setFullDates(parsed)
+}
+
   async function createLeave() {
     const token = localStorage.getItem("token")
 
+    if (!startDate || !endDate) {
+  alert("Seleciona as datas")
+  return
+}
     const res = await fetch("/api/leaves", {
       method: "POST",
       headers: {
@@ -48,10 +63,10 @@ export default function DashboardPage() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        startDate,
-        endDate,
-        type,
-      }),
+      startDate: startDate?.toISOString(),
+      endDate: endDate?.toISOString(),
+      type,
+}),
     })
 
     const data = await res.json()
@@ -76,6 +91,16 @@ export default function DashboardPage() {
   })
 }
 
+const inputDateStyle = {
+  width: "100%",
+  padding: "10px",
+  marginTop: 5,
+  borderRadius: 8,
+  border: "1px solid #333",
+  background: "#1e293b",
+  color: "white",
+}
+
   return (
     <div style={{ padding: 20 }}>
       <h1>User Dashboard</h1>
@@ -91,19 +116,37 @@ export default function DashboardPage() {
       </button>
 
       <h2>Novo pedido</h2>
+  <div style={inputDateStyle}>
+    <label>Data início</label>
+  <DatePicker
+    selected={startDate}
+    onChange={(date: any) => setStartDate(date)}
+    dateFormat="dd/MM/yyyy"
+    placeholderText="Selecionar data"
+    excludeDates={fullDates}
+    dayClassName={(date) =>
+      fullDates.some(d => d.toDateString() === date.toDateString())
+        ? "full-day"
+        : ""
+    }
+  />
+</div>
 
-      <input
-        type="date"
-        value={startDate}
-        onChange={(e) => setStartDate(e.target.value)}
-      />
-      <br /><br />
-
-      <input
-        type="date"
-        value={endDate}
-        onChange={(e) => setEndDate(e.target.value)}
-      />
+<div style={inputDateStyle}>
+  <label>Data Fim</label>
+  <DatePicker
+    selected={endDate}
+    onChange={(date: any) => setEndDate(date)}
+    dateFormat="dd/MM/yyyy"
+    placeholderText="Selecionar data"
+    excludeDates={fullDates}
+    dayClassName={(date) =>
+      fullDates.some(d => d.toDateString() === date.toDateString())
+        ? "full-day"
+        : ""
+    }
+  />
+</div>
       <br /><br />
 
       <select value={type} onChange={(e) => setType(e.target.value)}>
@@ -143,4 +186,5 @@ export default function DashboardPage() {
       )}
     </div>
   )
+  
 }
