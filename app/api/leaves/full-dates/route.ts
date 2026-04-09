@@ -4,32 +4,39 @@ export async function GET() {
   const leaves = await prisma.leaveRequest.findMany({
     where: {
       status: { in: ["approved", "pending"] }
+    },
+    include: {
+      user: true
     }
   })
 
-  const counts: Record<string, number> = {}
+  const datesMap: Record<string, string[]> = {}
 
-  function getDatesBetween(start: Date, end: Date) {
-    const dates = []
-    const current = new Date(start)
+function getDatesBetween(start: Date, end: Date) {
+  const dates = []
+  const current = new Date(start)
 
-    while (current <= end) {
-      dates.push(new Date(current))
-      current.setDate(current.getDate() + 1)
-    }
-
-    return dates
+  while (current <= end) {
+    dates.push(new Date(current))
+    current.setDate(current.getDate() + 1)
   }
 
-  for (const leave of leaves) {
-    const dates = getDatesBetween(leave.startDate, leave.endDate)
+  return dates
+}
 
-    for (const date of dates) {
-      const key = date.toISOString().split("T")[0]
+for (const leave of leaves) {
+  const dates = getDatesBetween(leave.startDate, leave.endDate)
 
-      counts[key] = (counts[key] || 0) + 1
+  for (const date of dates) {
+    const key = date.toISOString().split("T")[0]
+
+    if (!datesMap[key]) {
+      datesMap[key] = []
     }
-  }
 
-  return Response.json(counts)
+    datesMap[key].push(leave.user?.name || "User")
+  }
+}
+
+return Response.json(datesMap)
 }

@@ -44,7 +44,14 @@ export default function DashboardPage() {
   }
 
  async function fetchFullDates() {
-  const res = await fetch("/api/leaves/full-dates")
+  const token = localStorage.getItem("token")
+
+  const res = await fetch("/api/leaves/full-dates", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
   const data = await res.json()
 
   setFullDates(data)
