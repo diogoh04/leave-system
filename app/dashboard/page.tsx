@@ -68,6 +68,14 @@ export default function DashboardPage() {
     fetchMyLeaves()
   }
 
+  function formatDate(date: string) {
+  return new Date(date).toLocaleDateString("pt-PT", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
+}
+
   return (
     <div style={{ padding: 20 }}>
       <h1>User Dashboard</h1>
@@ -126,8 +134,8 @@ export default function DashboardPage() {
               color: "white",
             }}
           >
-            <p><b>Início:</b> {new Date(leave.startDate).toLocaleDateString()}</p>
-            <p><b>Fim:</b> {new Date(leave.endDate).toLocaleDateString()}</p>
+            <p><b>Início:</b> {formatDate(leave.startDate)}</p>
+            <p><b>Fim:</b> {formatDate(leave.endDate)}</p>
             <p><b>Tipo:</b> {leave.type}</p>
             <p><b>Status:</b> {leave.status}</p>
           </div>
