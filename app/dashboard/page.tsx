@@ -11,7 +11,7 @@ export default function DashboardPage() {
   const [startDate, setStartDate] = useState<any>(null)
   const [endDate, setEndDate] = useState<any>(null)
   const [type, setType] = useState("Paid")
-  const [fullDates, setFullDates] = useState<Record<string, number>>({})
+  const [fullDates, setFullDates] = useState<Record<string, string[]>>({})
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -135,22 +135,35 @@ return (
 
     {/* CALENDÁRIO GRANDE (TOPO) */}
     <div style={{ marginTop: 20 }}>
-      <Calendar
+<Calendar
   locale="pt-PT"
   tileClassName={({ date }) => {
     const key = date.toISOString().split("T")[0]
+    const users = fullDates[key] || []
 
-    if (fullDates[key] >= 3) return "full-day"
-    if (fullDates[key] >= 1) return "busy-day"
+    if (users.length >= 3) return "full-day"
+    if (users.length >= 1) return "busy-day"
     return ""
+  }}
+  tileContent={({ date }) => {
+    const key = date.toISOString().split("T")[0]
+    const users = fullDates[key]
+
+    if (!users) return null
+
+    return (
+      <div style={{ fontSize: 8, marginTop: 2 }}>
+        {users.slice(0, 2).map((name, i) => (
+          <div key={i}>{name}</div>
+        ))}
+        {users.length > 2 && <div>+{users.length - 2}</div>}
+      </div>
+    )
   }}
 />
 </div>
 
-       
-    
-
-    {/* CONTEÚDO */}
+       {/* CONTEÚDO */}
     <div style={{ display: "flex", gap: 30, marginTop: 30 }}>
       
       {/* FORM */}
