@@ -52,6 +52,50 @@ export async function POST(req: Request) {
       return Response.json({ error: "Já existe um pedido neste período" }, { status: 400 })
     }
 
+    // 🔥 LIMITE DE 3 PESSOAS POR DIA
+
+const overlappingLeaves = await prisma.leaveRequest.findMany({
+  where: {
+    status: { in: ["approved", "pending"] },
+    AND: [
+      { startDate: { lte: end } },
+      { endDate: { gte: start } }
+    ]
+  }
+})
+
+// função para gerar dias
+function getDatesBetween(start: Date, end: Date) {
+  const dates = []
+  const current = new Date(start)
+
+  while (current <= end) {
+    dates.push(new Date(current))
+    current.setDate(current.getDate() + 1)
+  }
+
+  return dates
+}
+
+const requestedDates = getDatesBetween(start, end)
+
+for (const date of requestedDates) {
+  let count = 0
+
+  for (const leave of overlappingLeaves) {
+    if (date >= leave.startDate && date <= leave.endDate) {
+      count++
+    }
+  }
+
+  if (count >= 3) {
+    return Response.json(
+      { error: `Dia ${date.toLocaleDateString("pt-PT")} já atingiu o limite` },
+      { status: 400 }
+    )
+  }
+}
+
     // criar pedido
     const leave = await prisma.leaveRequest.create({
       data: {
