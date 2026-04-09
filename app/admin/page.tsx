@@ -113,7 +113,11 @@ if (!mounted) return null
   }
 
   function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("pt-PT")
+  return new Date(date).toLocaleDateString("pt-PT", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  })
 }
 
   // UI
@@ -159,10 +163,10 @@ if (!mounted) return null
             <tr key={leave.id}>
               <td style={td}>{leave.user?.name}</td>
               <td style={td}>
-                {new formatDate(leave.startDate).toLocaleDateString()}
+                { formatDate(leave.startDate)}
               </td>
               <td style={td}>
-                {new Date(leave.endDate).toLocaleDateString()}
+                { formatDate(leave.endDate)}
               </td>
               <td style={td}>{leave.type}</td>
               <td style={td}>{leave.status}</td>
