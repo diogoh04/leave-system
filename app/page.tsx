@@ -60,7 +60,7 @@ export default function Home() {
                 fontWeight: "bold",
               }}
             >
-              Criar conta
+              Signup
             </button>
           </a>
         </div>

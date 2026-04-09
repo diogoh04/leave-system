@@ -59,7 +59,7 @@ alert("Conta criada!")
 
         <input type="password" placeholder="Password" style={input} />
 
-        <button style={button}>Criar conta</button>
+        <button style={button} onClick={handleSignup}>Criar conta</button>
 
         <p style={{ marginTop: 15, fontSize: 14 }}>
           Já tem conta?{" "}
