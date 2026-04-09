@@ -26,7 +26,7 @@ export default function Home() {
         <h1 style={{ marginBottom: 10 }}>🚀 Leaves Request</h1>
 
         <p style={{ color: "#94a3b8", marginBottom: 30 }}>
-          Gerencie seus pedidos de forma simples
+          Bidvest Noonan Vaction Management
         </p>
 
         <div style={{ display: "flex", gap: 10 }}>
