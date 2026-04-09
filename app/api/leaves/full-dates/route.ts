@@ -31,8 +31,5 @@ export async function GET() {
     }
   }
 
-  // só devolver os dias que já têm 3+
-  const fullDates = Object.keys(counts).filter(date => counts[date] >= 3)
-
-  return Response.json(fullDates)
+  return Response.json(counts)
 }

@@ -3,13 +3,15 @@
 import { useEffect, useState } from "react"
 import  DatePicker  from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
+import Calendar from "react-calendar"
+import "react-calendar/dist/Calendar.css"
 
 export default function DashboardPage() {
   const [leaves, setLeaves] = useState<any[]>([])
   const [startDate, setStartDate] = useState<any>(null)
   const [endDate, setEndDate] = useState<any>(null)
   const [type, setType] = useState("Paid")
-  const [fullDates, setFullDates] = useState<any[]>([])
+  const [fullDates, setFullDates] = useState<Record<string, number>>({})
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -41,18 +43,17 @@ export default function DashboardPage() {
     setLeaves(data)
   }
 
-  async function fetchFullDates() {
+ async function fetchFullDates() {
   const res = await fetch("/api/leaves/full-dates")
   const data = await res.json()
 
-  const parsed = data.map((d: string) => new Date(d))
-  setFullDates(parsed)
+  setFullDates(data)
 }
 
   async function createLeave() {
     const token = localStorage.getItem("token")
 
-    if (!startDate || !endDate) {
+    if (!startDate || !endDate) {                
   alert("Seleciona as datas")
   return
 }
@@ -101,8 +102,18 @@ const inputDateStyle = {
   color: "white",
 }
 
-  return (
-    <div style={{ padding: 20 }}>
+
+return (
+  <div
+    style={{
+      minHeight: "100vh",
+      background: "linear-gradient(to bottom right, #0f172a, #1e293b)",
+      color: "white",
+      padding: 30,
+    }}
+  >
+    {/* HEADER */}
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
       <h1>User Dashboard</h1>
 
       <button
@@ -110,81 +121,88 @@ const inputDateStyle = {
           localStorage.removeItem("token")
           window.location.href = "/login"
         }}
-        style={{ marginBottom: 20 }}
       >
         Logout
       </button>
+    </div>
 
-      <h2>Novo pedido</h2>
-  <div style={inputDateStyle}>
-    <label>Data início</label>
-  <DatePicker
-    selected={startDate}
-    onChange={(date: any) => setStartDate(date)}
-    dateFormat="dd/MM/yyyy"
-    placeholderText="Selecionar data"
-    excludeDates={fullDates}
-    dayClassName={(date) =>
-      fullDates.some(d => d.toDateString() === date.toDateString())
-        ? "full-day"
-        : ""
-    }
-  />
-</div>
+    {/* CALENDÁRIO GRANDE (TOPO) */}
+    <div style={{ marginTop: 20 }}>
+      <Calendar
+        onClickDay={(date) => {
+          const key = date.toISOString().split("T")[0]
 
-<div style={inputDateStyle}>
-  <label>Data Fim</label>
-  <DatePicker
-    selected={endDate}
-    onChange={(date: any) => setEndDate(date)}
-    dateFormat="dd/MM/yyyy"
-    placeholderText="Selecionar data"
-    excludeDates={fullDates}
-    dayClassName={(date) =>
-      fullDates.some(d => d.toDateString() === date.toDateString())
-        ? "full-day"
-        : ""
-    }
-  />
-</div>
-      <br /><br />
+          if ((fullDates[key] || 0) >= 3) {
+            alert("Dia cheio!")
+            return
+          }
 
-      <select value={type} onChange={(e) => setType(e.target.value)}>
-        <option value="Paid">Paid</option>
-        <option value="Unpaid">Unpaid</option>
-        <option value="AA">AA</option>
-      </select>
-      <br /><br />
+          setStartDate(date)
+        }}
+        tileClassName={({ date }) => {
+          const key = date.toISOString().split("T")[0]
+          const count = fullDates[key] || 0
 
-      <button onClick={createLeave}>Criar pedido</button>
+          if (count >= 3) return "full-day"
+          if (count === 2) return "almost-full"
+          if (count === 1) return "low"
 
-      <hr style={{ margin: "30px 0" }} />
+          return ""
+        }}
+      />
+    </div>
 
-      <h2>Meus pedidos</h2>
+    {/* CONTEÚDO */}
+    <div style={{ display: "flex", gap: 30, marginTop: 30 }}>
+      
+      {/* FORM */}
+      <div style={{ flex: 1 }}>
+        <h2>Novo pedido</h2>
 
-      {leaves.length === 0 ? (
-        <p>Nenhum pedido encontrado</p>
-      ) : (
-        leaves.map((leave) => (
+        <div style={{ marginBottom: 10 }}>
+          <label>Data início</label>
+          <DatePicker
+            selected={startDate}
+            onChange={(date: any) => setStartDate(date)}
+            dateFormat="dd/MM/yyyy"
+          />
+        </div>
+
+        <div style={{ marginBottom: 10 }}>
+          <label>Data fim</label>
+          <DatePicker
+            selected={endDate}
+            onChange={(date: any) => setEndDate(date)}
+            dateFormat="dd/MM/yyyy"
+          />
+        </div>
+
+        <button onClick={createLeave}>Criar pedido</button>
+      </div>
+
+      {/* LISTA */}
+      <div style={{ width: 350 }}>
+        <h2>Pedidos</h2>
+
+        {leaves.map((leave: any) => (
           <div
             key={leave.id}
             style={{
-              border: "1px solid #333",
+              marginBottom: 10,
+              padding: 10,
+              background: "#1e293b",
               borderRadius: 8,
-              padding: 15,
-              marginBottom: 15,
-              background: "#111",
-              color: "white",
             }}
           >
-            <p><b>Início:</b> {formatDate(leave.startDate)}</p>
-            <p><b>Fim:</b> {formatDate(leave.endDate)}</p>
-            <p><b>Tipo:</b> {leave.type}</p>
-            <p><b>Status:</b> {leave.status}</p>
+            <b>{leave.user?.name}</b>
+            <div>
+              {formatDate(leave.startDate)} → {formatDate(leave.endDate)}
+            </div>
+            <div>Status: {leave.status}</div>
           </div>
-        ))
-      )}
+        ))}
+      </div>
     </div>
-  )
-  
+  </div>
+)
 }
