@@ -53,11 +53,27 @@ alert("Conta criada!")
       >
         <h2 style={{ marginBottom: 20 }}>📝 Criar conta</h2>
 
-        <input placeholder="Nome" style={input} />
+        <input
+  placeholder="Nome"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+  style={input}
+/>
 
-        <input placeholder="Email" style={input} />
+<input
+  placeholder="Email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  style={input}
+/>
 
-        <input type="password" placeholder="Password" style={input} />
+<input
+  type="password"
+  placeholder="Password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  style={input}
+/>
 
         <button style={button} onClick={handleSignup}>Criar conta</button>
 
