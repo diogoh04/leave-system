@@ -55,17 +55,21 @@ export default function LoginPage() {
         <h2 style={{ marginBottom: 20 }}>🔐 Login</h2>
 
         <input
-          placeholder="Email"
-          style={input}
-        />
+  placeholder="Email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  style={input}
+/>
 
-        <input
-          type="password"
-          placeholder="Password"
-          style={input}
-        />
+<input
+  type="password"
+  placeholder="Password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  style={input}
+/>
 
-        <button style={button}>Entrar</button>
+        <button style={button} onClick={handleLogin}>Entrar</button>
 
         <p style={{ marginTop: 15, fontSize: 14 }}>
           Não tem conta?{" "}
