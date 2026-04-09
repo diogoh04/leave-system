@@ -129,28 +129,19 @@ return (
     {/* CALENDÁRIO GRANDE (TOPO) */}
     <div style={{ marginTop: 20 }}>
       <Calendar
-        onClickDay={(date) => {
-          const key = date.toISOString().split("T")[0]
+  locale="pt-PT"
+  tileClassName={({ date }) => {
+    const key = date.toISOString().split("T")[0]
 
-          if ((fullDates[key] || 0) >= 3) {
-            alert("Dia cheio!")
-            return
-          }
+    if (fullDates[key] >= 3) return "full-day"
+    if (fullDates[key] >= 1) return "busy-day"
+    return ""
+  }}
+/>
+</div>
 
-          setStartDate(date)
-        }}
-        tileClassName={({ date }) => {
-          const key = date.toISOString().split("T")[0]
-          const count = fullDates[key] || 0
-
-          if (count >= 3) return "full-day"
-          if (count === 2) return "almost-full"
-          if (count === 1) return "low"
-
-          return ""
-        }}
-      />
-    </div>
+       
+    
 
     {/* CONTEÚDO */}
     <div style={{ display: "flex", gap: 30, marginTop: 30 }}>
