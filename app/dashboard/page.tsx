@@ -3,8 +3,12 @@
 import { useEffect, useState } from "react"
 import  DatePicker  from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
-import Calendar from "react-calendar"
 import "react-calendar/dist/Calendar.css"
+import dynamic from "next/dynamic"
+
+const Calendar = dynamic(() => import("react-calendar"), {
+  ssr: false,
+})
 
 export default function DashboardPage() {
   const [leaves, setLeaves] = useState<any[]>([])
@@ -12,6 +16,7 @@ export default function DashboardPage() {
   const [endDate, setEndDate] = useState<any>(null)
   const [type, setType] = useState("Paid")
   const [fullDates, setFullDates] = useState<Record<string, number>>({})
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -20,9 +25,12 @@ export default function DashboardPage() {
       window.location.href = "/login"
       return
     }
+    setMounted(true)
     fetchFullDates()
     fetchMyLeaves()
   }, [])
+
+  if (!mounted) return null
 
   async function fetchMyLeaves() {
     const token = localStorage.getItem("token")
@@ -108,7 +116,6 @@ const inputDateStyle = {
   background: "#1e293b",
   color: "white",
 }
-
 
 return (
   <div
