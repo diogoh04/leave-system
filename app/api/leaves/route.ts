@@ -16,6 +16,7 @@ export async function POST(req: Request) {
 
     // campos obrigatórios
     if (!startDate || !endDate || !type) {
+      alert("Selecione as datas")
       return Response.json({ error: "Campos obrigatórios" }, { status: 400 })
     }
 

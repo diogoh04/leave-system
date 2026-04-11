@@ -185,29 +185,72 @@ tileContent={({ date }) => {
     <div style={{ display: "flex", gap: 30, marginTop: 30 }}>
       
       {/* FORM */}
-      <div style={{ flex: 1 }}>
-        <h2>Novo pedido</h2>
+    <div style={{
+  background: "white",
+  padding: 20,
+  borderRadius: 12,
+  width: 300,
+  boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+}}>
+  <h2 style={{ marginBottom: 15, color: "#1e293b" }}>
+    Novo pedido
+  </h2>
 
-        <div style={{ marginBottom: 10 }}>
-          <label>Data início</label>
-          <DatePicker
-            selected={startDate}
-            onChange={(date: any) => setStartDate(date)}
-            dateFormat="dd/MM/yyyy"
-          />
-        </div>
+  {/* DATA INÍCIO */}
+  <div style={{ marginBottom: 10 }}>
+    <label style={{ fontSize: 14, color: "#475569" }}>
+      Data início
+    </label>
+    <input
+      type="date"
+      value={startDate || ""}
+      onChange={(e) => setStartDate(new Date(e.target.value))}
+      style={{
+        width: "100%",
+        padding: 8,
+        borderRadius: 6,
+        border: "1px solid #cbd5e1",
+        marginTop: 5
+      }}
+    />
+  </div>
 
-        <div style={{ marginBottom: 10 }}>
-          <label>Data fim</label>
-          <DatePicker
-            selected={endDate}
-            onChange={(date: any) => setEndDate(date)}
-            dateFormat="dd/MM/yyyy"
-          />
-        </div>
+  {/* DATA FIM */}
+  <div style={{ marginBottom: 15 }}>
+    <label style={{ fontSize: 14, color: "#475569" }}>
+      Data fim
+    </label>
+    <input
+      type="date"
+      value={endDate || ""}
+      onChange={(e) => setEndDate(new Date(e.target.value))}
+      style={{
+        width: "100%",
+        padding: 8,
+        borderRadius: 6,
+        border: "1px solid #cbd5e1",
+        marginTop: 5
+      }}
+    />
+  </div>
 
-        <button onClick={createLeave}>Criar pedido</button>
-      </div>
+  {/* BOTÃO */}
+  <button
+    onClick={createLeave}
+    style={{
+      width: "100%",
+      padding: 10,
+      background: "#22c55e",
+      color: "white",
+      border: "none",
+      borderRadius: 8,
+      fontWeight: "bold",
+      cursor: "pointer"
+    }}
+  >
+    Criar pedido
+  </button>
+</div>
 
       {/* LISTA */}
       <div style={{ width: 350 }}>
