@@ -140,7 +140,7 @@ return (
       </button>
     </div>
 
-    {/* CONTEÚDO */}
+    {/* CONTAINER PRINCIPAL */}
 <div style={{
   maxWidth: 1200,
   margin: "0 auto",
@@ -148,7 +148,8 @@ return (
   justifyContent: "center",
   alignItems: "flex-start",
   gap: 50,
-  marginTop: 40
+  marginTop: 40,
+  overflow: "visible"
 }}>
 
   {/* 🗓️ CALENDÁRIO */}
@@ -195,7 +196,9 @@ return (
     padding: 20,
     borderRadius: 12,
     width: 300,
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+    position: "relative",
+    zIndex: 10
   }}>
     <h2 style={{ marginBottom: 15, color: "#1e293b" }}>
       Novo pedido
