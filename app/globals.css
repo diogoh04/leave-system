@@ -91,3 +91,22 @@ body {
   font-weight: bold;
   font-size: 18px;
 }
+/* RANGE */
+.selected-range {
+  background: #60a5fa !important;
+  color: white !important;
+}
+
+/* INÍCIO */
+.selected-start {
+  background: #2563eb !important;
+  color: white !important;
+  border-radius: 8px 0 0 8px;
+}
+
+/* FIM */
+.selected-end {
+  background: #2563eb !important;
+  color: white !important;
+  border-radius: 0 8px 8px 0;
+}

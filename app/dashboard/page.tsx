@@ -171,15 +171,29 @@ return (
   }
 }}
 
-      tileClassName={({ date }) => {
-        const key = date.toISOString().split("T")[0]
-        const users = fullDates[key] || []
-        const count = users.length
 
-        if (count >= 3) return "full-day"
-        if (count >= 1) return "busy-day"
-        return ""
-      }}
+      tileClassName={({ date }) => {
+  const key = date.toISOString().split("T")[0]
+  const users = fullDates[key] || []
+  const count = users.length
+  
+  if (count >= 3) return "full-day"
+
+  if (startDate && endDate) {
+    if (date >= startDate && date <= endDate) {
+      return "selected-range"
+    }
+  }
+  if (startDate && date.toDateString() === startDate.toDateString()) {
+    return "selected-start"
+  }
+  if (endDate && date.toDateString() === endDate.toDateString()) {
+    return "selected-end"
+  }
+  if (count >= 1) return "busy-day"
+
+  return ""
+}}
       tileContent={({ date }) => {
         const key = date.toISOString().split("T")[0]
         const users = fullDates[key] || []
@@ -225,6 +239,7 @@ return (
       </label>
       <input
         type="date"
+        readOnly
         value={startDate ? startDate.toISOString().split("T")[0] : ""}
         onChange={(e) => setStartDate(new Date(e.target.value))}
         style={{
@@ -243,6 +258,7 @@ return (
       </label>
       <input
         type="date"
+        readOnly
         value={endDate ? endDate.toISOString().split("T")[0] : ""}
         onChange={(e) => setEndDate(new Date(e.target.value))}
         style={{
