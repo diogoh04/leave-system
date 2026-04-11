@@ -28,25 +28,22 @@ body {
   background: red !important;
   color: white !important;
 }
-
-.almost-full {
-  background: orange !important;
+.busy-day {
+  background: #facc15 !important;
+  color: black !important;
 }
 
-.low {
-  background: green !important;
-}
 .react-calendar {
   background: #1e293b;
   border: none;
   border-radius: 12px;
-  padding: 10px;
+  padding: 15px;
   color: white;
 }
 
 .react-calendar__tile {
-  color: white;
   border-radius: 8px;
+   height: 70px;
 }
 
 .react-calendar__tile--now {
@@ -56,12 +53,6 @@ body {
 .react-calendar__tile--active {
   background: #22c55e !important;
   color: white;
-}
-
-.react-calendar__tile:disabled {
-  background: #ef4444 !important;
-  color: white;
-  opacity: 0.6;
 }
 
 .react-calendar__navigation button {
@@ -76,10 +67,6 @@ body {
   background: #1e293b;
   color: white;
   border-radius: 12px;
-}
-
-.react-calendar__tile {
-  height: 70px;
 }
 
 .react-calendar__tile div {
