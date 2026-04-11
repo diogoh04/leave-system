@@ -17,6 +17,18 @@ export default function DashboardPage() {
   const [type, setType] = useState("Paid")
   const [fullDates, setFullDates] = useState<Record<string, string>>({})
   const [mounted, setMounted] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 768)
+  }
+
+  handleResize()
+  window.addEventListener("resize", handleResize)
+
+  return () => window.removeEventListener("resize", handleResize)
+}, [])
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -155,15 +167,18 @@ return (
   maxWidth: 1200,
   margin: "0 auto",
   display: "flex",
+  flexDirection: isMobile ? "column" : "row", 
   justifyContent: "center",
-  alignItems: "flex-start",
-  gap: 50,
+  alignItems: "center",
+  gap: 30,
   marginTop: 40,
-  overflow: "visible"
+  padding: isMobile ? 10 : 0
 }}>
 
   {/* CALENDARIO*/}
  <div style={{
+  width: "100%",
+  justifyContent:"center",
   marginTop: 20,
   display: "flex",
   flexDirection: "column",
@@ -272,7 +287,7 @@ return (
         />
         {startDate && (
        <p style={{
-          width: "100%",
+          width: isMobile ? "100%" : 300,
           padding: 8,
           borderRadius: 6,
           border: "1px solid #cbd5e1",
@@ -357,7 +372,7 @@ return (
   </div>
 
   {/* 📋 PEDIDOS */}
-  <div style={{ width: 350 }}>
+  <div style={{ width: isMobile ? "100%" : 350 }}>
     <h2>My Requests</h2>
 
     {leaves.map((leave: any) => (

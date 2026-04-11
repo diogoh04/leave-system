@@ -91,7 +91,7 @@ for (const date of requestedDates) {
 
   if (count >= 3) {
     return Response.json(
-      { error: `Dia ${date.toLocaleDateString("pt-PT")} já atingiu o limite` },
+      { error: `Dia ${date.toLocaleDateString("pt-PT")} já atingiu o limite de Team Leader no mesmo dia!` },
       { status: 400 }
     )
   }
