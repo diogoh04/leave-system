@@ -156,6 +156,21 @@ return (
   <div>
     <Calendar
       locale="pt-PT"
+
+      onClickDay={(date) => {
+  if (!startDate || (startDate && endDate)) {
+    setStartDate(date)
+    setEndDate(null)
+  } else {
+    if (date < startDate) {
+      setEndDate(startDate)
+      setStartDate(date)
+    } else {
+      setEndDate(date)
+    }
+  }
+}}
+
       tileClassName={({ date }) => {
         const key = date.toISOString().split("T")[0]
         const users = fullDates[key] || []
