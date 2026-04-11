@@ -161,16 +161,27 @@ return (
   marginTop: 40,
   overflow: "visible"
 }}>
-  <p style={{
-  marginBottom: 12,
-  fontSize: 13,
-  color: "#64748b",
-  textAlign: "center"
+
+  {/* CALENDARIO*/}
+ <div style={{
+  marginTop: 20,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  background: "rgba(255,255,255,0.05)",
+  padding: 15,
+  borderRadius: 12
 }}>
-  Clique no calendário para escolher a data de início e fim
-</p>
-  {/* 🗓️ CALENDÁRIO */}
-  <div>
+
+  <p style={{
+    marginBottom: 12,
+    fontSize: 14,
+    color: "#94a3b8",
+    textAlign: "center",
+    fontWeight: 500
+  }}>
+    Selecione o período de férias no calendário
+  </p>
     <Calendar
       locale="pt-PT"
 
