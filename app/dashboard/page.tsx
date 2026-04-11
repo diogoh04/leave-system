@@ -11,7 +11,7 @@ export default function DashboardPage() {
   const [startDate, setStartDate] = useState<any>(null)
   const [endDate, setEndDate] = useState<any>(null)
   const [type, setType] = useState("Paid")
-  const [fullDates, setFullDates] = useState<Record<string, string[]>>({})
+  const [fullDates, setFullDates] = useState<Record<string, number>>({})
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -139,28 +139,27 @@ return (
   locale="pt-PT"
   tileClassName={({ date }) => {
     const key = date.toISOString().split("T")[0]
-    const users = fullDates[key] || []
+    const count = fullDates[key] ?? 0
 
-    if (users.length >= 3) return "full-day"
-    if (users.length >= 1) return "busy-day"
+    if (count >= 3) return "full-day"
+    if (count >= 1) return "busy-day"
     return ""
   }}
 tileContent={({ date }) => {
   const key = date.toISOString().split("T")[0]
-  const users = fullDates[key] || []
+  const count = fullDates[key] ?? 0
 
-  if (users.length === 0) return null
+  if (count === 0) return null
 
   return (
-    <div style={{ fontSize: 9, marginTop: 2 }}>
-      {users.slice(0, 2).map((name, i) => (
-        <div key={i}>{String(name)}</div>
-      ))}
-      {users.length > 2 && <div>+{users.length - 2}</div>}
+    <div style={{ fontSize: 10, marginTop: 2 }}>
+      {count} pessoa{count > 1 ? "s" : ""}
     </div>
   )
 }}
 />
+
+
 </div>
 
        {/* CONTEÚDO */}
