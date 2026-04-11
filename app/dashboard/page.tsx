@@ -240,7 +240,7 @@ return (
     zIndex: 10
   }}>
     <h2 style={{ marginBottom: 15, color: "#1e293b" }}>
-      Novo pedido
+      New Request
     </h2>
 
     <div style={{ marginBottom: 10 }}>
@@ -257,7 +257,11 @@ return (
           padding: 8,
           borderRadius: 6,
           border: "1px solid #cbd5e1",
-          marginTop: 5
+          marginTop: 5,
+          background:"#f8fafc",
+          color:"#0f172a",
+          fontSize: 14,
+          outline:"none"
         }}
       />
     </div>
@@ -298,13 +302,13 @@ return (
         cursor: "pointer"
       }}
     >
-      Criar pedido
+      Create Request
     </button>
   </div>
 
   {/* 📋 PEDIDOS */}
   <div style={{ width: 350 }}>
-    <h2>Pedidos</h2>
+    <h2>My Requests</h2>
 
     {leaves.map((leave: any) => (
       <div
