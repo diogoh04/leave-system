@@ -15,7 +15,7 @@ export default function DashboardPage() {
   const [startDate, setStartDate] = useState<any>(null)
   const [endDate, setEndDate] = useState<any>(null)
   const [type, setType] = useState("Paid")
-  const [fullDates, setFullDates] = useState<Record<string, number>>({})
+  const [fullDates, setFullDates] = useState<Record<string, string>>({})
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -146,7 +146,8 @@ return (
   locale="pt-PT"
   tileClassName={({ date }) => {
     const key = date.toISOString().split("T")[0]
-    const count = fullDates[key] ?? 0
+    const users = fullDates[key] || []
+    const count = users.length
 
     if (count >= 3) return "full-day"
     if (count >= 1) return "busy-day"
@@ -154,23 +155,25 @@ return (
   }}
 tileContent={({ date }) => {
   const key = date.toISOString().split("T")[0]
-  const count = fullDates[key] || 0
+
+  const users = fullDates[key] || []
+  const count = users.length
 
   if (count === 0) return null
 
   return (
-   <div style={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
-  <div
-    style={{
-      width: 6,
-      height: 6,
-      borderRadius: "50%",
-      background: count >= 3 ? "red" : "orange",
-      marginRight: 4,
-    }}
-  />
-  <span style={{ fontSize: 10 }}>{count}</span>
-</div>
+    <div style={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
+      <div
+        style={{
+          width: 6,
+          height: 6,
+          borderRadius: "50%",
+          background: count >= 3 ? "red" : "orange",
+          marginRight: 4,
+        }}
+      />
+      <span style={{ fontSize: 10 }}>{count}</span>
+    </div>
   )
 }}
 />
