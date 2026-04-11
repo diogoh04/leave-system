@@ -117,6 +117,16 @@ const inputDateStyle = {
   color: "white",
 }
 
+function formatInputDate(date: Date | null) {
+  if (!date) return ""
+
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+
+  return `${year}-${month}-${day}`
+}
+
 return (
   <div
     style={{
@@ -176,7 +186,7 @@ return (
   const key = date.toISOString().split("T")[0]
   const users = fullDates[key] || []
   const count = users.length
-  
+
   if (count >= 3) return "full-day"
 
   if (startDate && endDate) {
@@ -240,7 +250,7 @@ return (
       <input
         type="date"
         readOnly
-        value={startDate ? startDate.toISOString().split("T")[0] : ""}
+        value={formatInputDate(startDate)}
         onChange={(e) => setStartDate(new Date(e.target.value))}
         style={{
           width: "100%",
@@ -259,7 +269,7 @@ return (
       <input
         type="date"
         readOnly
-        value={endDate ? endDate.toISOString().split("T")[0] : ""}
+        value={formatInputDate(endDate)}
         onChange={(e) => setEndDate(new Date(e.target.value))}
         style={{
           width: "100%",
