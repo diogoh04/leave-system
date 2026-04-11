@@ -181,7 +181,6 @@ return (
   }
 }}
 
-
       tileClassName={({ date }) => {
   const key = date.toISOString().split("T")[0]
   const users = fullDates[key] || []
@@ -252,7 +251,9 @@ return (
         readOnly
         value={formatInputDate(startDate)}
         onChange={(e) => setStartDate(new Date(e.target.value))}
-        style={{
+        />
+        {startDate && (
+       <p style={{
           width: "100%",
           padding: 8,
           borderRadius: 6,
@@ -262,8 +263,10 @@ return (
           color:"#0f172a",
           fontSize: 14,
           outline:"none"
-        }}
-      />
+        }}>
+          {formatDate(startDate.toISOString())}
+        </p>
+        )}
     </div>
 
     <div style={{ marginBottom: 15 }}>
@@ -275,7 +278,9 @@ return (
         readOnly
         value={formatInputDate(endDate)}
         onChange={(e) => setEndDate(new Date(e.target.value))}
-        style={{
+        />
+        {endDate && (
+       <p style={{
           width: "100%",
           padding: 8,
           borderRadius: 6,
@@ -285,8 +290,10 @@ return (
           color:"#0f172a",
           fontSize: 14,
           outline:"none"
-        }}
-      />
+        }}>
+        {formatDate(endDate.toISOString())}
+      </p>
+        )}
     </div>
 
     <button
