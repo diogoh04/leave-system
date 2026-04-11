@@ -162,6 +162,15 @@ return (
   overflow: "visible"
 }}>
 
+  <p style={{
+    marginBottom: 10,
+    fontSize: 14,
+    color: "#cbd5e1",
+    textAlign: "center"
+  }}>
+    📅 Select the desired dates.
+  </p>
+
   {/* 🗓️ CALENDÁRIO */}
   <div>
     <Calendar
@@ -296,6 +305,31 @@ return (
         )}
     </div>
 
+    <div style={{ marginBottom: 15 }}>
+  <label style={{ fontSize: 14, color: "#475569" }}>
+    Tipo
+  </label>
+
+  <select
+    value={type}
+    onChange={(e) => setType(e.target.value)}
+    style={{
+      width: "100%",
+      padding: 10,
+      borderRadius: 8,
+      border: "1px solid #cbd5e1",
+      marginTop: 5,
+      background: "#f1f5f9",
+      color: "#0f172a",
+      fontSize: 14
+    }}
+  >
+    <option value="Paid">💰 Paid</option>
+    <option value="Unpaid">🚫 Unpaid</option>
+    <option value="AA">🏖️ AA</option>
+  </select>
+</div>
+
     <button
       onClick={createLeave}
       style={{
@@ -332,6 +366,7 @@ return (
           {formatDate(leave.startDate)} → {formatDate(leave.endDate)}
         </div>
         <div>Status: {leave.status}</div>
+        <div>tipo: {leave.type}</div>
       </div>
     ))}
   </div>
