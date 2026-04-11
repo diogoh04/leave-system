@@ -161,16 +161,14 @@ return (
   marginTop: 40,
   overflow: "visible"
 }}>
-
   <p style={{
-    marginBottom: 10,
-    fontSize: 14,
-    color: "#cbd5e1",
-    textAlign: "center"
-  }}>
-    📅 Select the desired dates.
-  </p>
-
+  marginBottom: 12,
+  fontSize: 13,
+  color: "#64748b",
+  textAlign: "center"
+}}>
+  Clique no calendário para escolher a data de início e fim
+</p>
   {/* 🗓️ CALENDÁRIO */}
   <div>
     <Calendar
