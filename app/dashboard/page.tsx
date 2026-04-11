@@ -182,7 +182,13 @@ tileContent={({ date }) => {
 </div>
 
        {/* CONTEÚDO */}
-    <div style={{ display: "flex", gap: 30, marginTop: 30 }}>
+    <div style={{
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  gap: 40,
+  marginTop: 30
+}}>
       
       {/* FORM */}
     <div style={{
@@ -203,7 +209,7 @@ tileContent={({ date }) => {
     </label>
     <input
       type="date"
-      value={startDate || ""}
+      value={startDate ? startDate.toISOString().split("T")[0] : ""}
       onChange={(e) => setStartDate(new Date(e.target.value))}
       style={{
         width: "100%",
@@ -222,7 +228,7 @@ tileContent={({ date }) => {
     </label>
     <input
       type="date"
-      value={endDate || ""}
+      value={endDate ? endDate.toISOString().split("T")[0] : ""}
       onChange={(e) => setEndDate(new Date(e.target.value))}
       style={{
         width: "100%",
