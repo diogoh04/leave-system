@@ -154,14 +154,23 @@ return (
   }}
 tileContent={({ date }) => {
   const key = date.toISOString().split("T")[0]
-  const count = fullDates[key] ?? 0
+  const count = fullDates[key] || 0
 
   if (count === 0) return null
 
   return (
-    <div style={{ fontSize: 10, marginTop: 2 }}>
-      {count} pessoa{count > 1 ? "s" : ""}
-    </div>
+   <div style={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
+  <div
+    style={{
+      width: 6,
+      height: 6,
+      borderRadius: "50%",
+      background: count >= 3 ? "red" : "orange",
+      marginRight: 4,
+    }}
+  />
+  <span style={{ fontSize: 10 }}>{count}</span>
+</div>
   )
 }}
 />
