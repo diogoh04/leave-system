@@ -276,7 +276,11 @@ return (
           padding: 8,
           borderRadius: 6,
           border: "1px solid #cbd5e1",
-          marginTop: 5
+          marginTop: 5,
+          background:"#f8fafc",
+          color:"#0f172a",
+          fontSize: 14,
+          outline:"none"
         }}
       />
     </div>
