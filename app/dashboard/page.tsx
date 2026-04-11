@@ -166,13 +166,14 @@ return (
 <div style={{
   maxWidth: 1200,
   margin: "0 auto",
-  display: "flex",
-  flexDirection: isMobile ? "column" : "row", 
-  justifyContent: "center",
-  alignItems: "center",
-  gap: 30,
+  padding: 20
+}}>
+  <div style={{
+  display: "grid",
+  gridTemplateColumns: isMobile ? "1fr" : "1fr 350px",
+  gap: 40,
   marginTop: 40,
-  padding: isMobile ? 10 : 0
+  alignItems: "start"
 }}>
 
   {/* CALENDARIO*/}
@@ -260,6 +261,13 @@ return (
       }}
     />
   </div>
+  <div style={{
+  display: "grid",
+  gridTemplateColumns: isMobile ? "1fr" : "1fr 350px",
+  gap: 40,
+  marginTop: 40,
+  alignItems: "start"
+}}>
 
   {/* 📦 FORM */}
   <div style={{
@@ -394,8 +402,10 @@ return (
       </div>
     ))}
   </div>
+  </div>
+  </div>
 
-</div>
+  </div>
   </div>
 )
 }
