@@ -255,16 +255,30 @@ return (
         return (
           <div
   style={{
-    width: 6,
-    height: 6,
-    borderRadius: "50%",
-    background: count >= 3 ? "red" : "orange",
-    marginRight: 4,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
+    marginTop: 4,
     cursor: "pointer"
   }}
   title={users.map(u => `${u.name} (${u.type})`).join("\n")}
-/>
-        )
+>
+  <div
+    style={{
+      width: 6,
+      height: 6,
+      borderRadius: "50%",
+      background: count >= 3 ? "red" : "orange"
+    }}
+  />
+
+  {/* quantidade de pessoas */}
+  <span style={{ fontSize: 10 }}>
+    {count}
+  </span>
+</div>
+          )
       }}
     />
   </div>
