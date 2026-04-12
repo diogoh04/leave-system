@@ -30,10 +30,13 @@ type TokenPayload = {
 
 export async function DELETE(
   req: Request,
-  context: { params: { id: string } }
+  { params }: { params : Promise<{ id: string}> } 
 ) {
-  try {
+    
+    try {
     const authHeader = req.headers.get("authorization")
+    const { id } = await params
+    const leaveId = Number(id)
 
     if (!authHeader) {
       return Response.json({ error: "Não autenticado" }, { status: 401 })
@@ -41,8 +44,6 @@ export async function DELETE(
 
     const token = authHeader.split(" ")[1]
     const user = verifyToken(token) as TokenPayload
-
-    const leaveId = Number(context.params.id)
 
     if (isNaN(leaveId)) {
       return Response.json({ error: "ID inválido" }, { status: 400 })
