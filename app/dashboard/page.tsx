@@ -362,7 +362,7 @@ return (
 
     <div style={{ marginBottom: 15 }}>
   <label style={{ fontSize: 14, color: "#475569" }}>
-    Tipo
+    Type
   </label>
 
   <select
@@ -443,7 +443,7 @@ return (
           {formatDate(leave.startDate)} → {formatDate(leave.endDate)}
         </div>
         <div>Status: {leave.status}</div>
-        <div>tipo: {leave.type}</div>
+        <div>type: {leave.type}</div>
       </div>
     ))}
   </div>
