@@ -401,7 +401,11 @@ return (
         }}
       >
         <button
-  
+        onClick={() => {
+  if (confirm("Deseja deletar este pedido?")) {
+    deleteLeave(leave.id)
+  }
+}}
   style={{
     position: "absolute",
     top: 8,
