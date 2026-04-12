@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import  DatePicker  from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import "react-calendar/dist/Calendar.css"
 import dynamic from "next/dynamic"
@@ -402,7 +401,7 @@ return (
         }}
       >
         <button
-  onClick={() => deleteLeave(leave.id)}
+  
   style={{
     position: "absolute",
     top: 8,
@@ -414,7 +413,7 @@ return (
     cursor: "pointer"
   }}
 >
-  🗑️
+  🗑️ Delete
 </button>
         <b>{leave.user?.name}</b>
         <div>
