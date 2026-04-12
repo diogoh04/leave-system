@@ -253,28 +253,17 @@ return (
         if (count === 0) return null
 
         return (
-          <div style={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
-            <div
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: count >= 3 ? "red" : "orange",
-                marginRight: 4,
-                cursor: "pointer"
-              }}
-              className="dot"
-            />
-            <span style={{ fontSize: 10 }}>{count}</span>
-
-            <div className="tooltip">
-             {users.map((u: any, i: number) => (
-                <div key={i}>
-                    {u.name} ({u.type})
-                </div>
-                ))}
-          </div>
-        </div>
+          <div
+  style={{
+    width: 6,
+    height: 6,
+    borderRadius: "50%",
+    background: count >= 3 ? "red" : "orange",
+    marginRight: 4,
+    cursor: "pointer"
+  }}
+  title={users.map(u => `${u.name} (${u.type})`).join("\n")}
+/>
         )
       }}
     />
