@@ -163,23 +163,25 @@ return (
     </div>
 
     {/* CONTAINER PRINCIPAL */}
-<div style={{
-  maxWidth: 1200,
-  margin: "0 auto",
-  padding: 20
-}}>
-  <div style={{
-  display: "grid",
-  gridTemplateColumns: isMobile ? "1fr" : "1fr 350px",
-  gap: 40,
-  marginTop: 40,
-  alignItems: "start"
-}}>
-
+<div
+  style={{
+    maxWidth: 1200,
+    margin: "0 auto",
+    padding: 20,
+  }}
+>
+  <div
+    style={{
+      display: "flex",
+      flexWrap: "wrap", 
+      justifyContent: "center",
+      gap: 30,
+      marginTop: 40,
+    }}
+  >
   {/* CALENDARIO*/}
  <div style={{
-  width: "100%",
-  justifyContent:"center",
+  flex: "1 1 400px",
   marginTop: 20,
   display: "flex",
   flexDirection: "column",
@@ -261,12 +263,13 @@ return (
       }}
     />
   </div>
-  <div style={{
-  display: "grid",
-  gridTemplateColumns: isMobile ? "1fr" : "1fr 350px",
+ <div style={{
+  display: "flex",
+  flexWrap: "wrap",
   gap: 40,
   marginTop: 40,
-  alignItems: "start"
+  justifyContent: "center",
+  alignItems: "flex-start"
 }}>
 
   {/* 📦 FORM */}
@@ -274,7 +277,8 @@ return (
     background: "white",
     padding: 20,
     borderRadius: 12,
-    width: 300,
+    flex: "1 1 320px",
+    maxWidth: 350,
     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
     position: "relative",
     zIndex: 10
@@ -380,7 +384,9 @@ return (
   </div>
 
   {/* 📋 PEDIDOS */}
-  <div style={{ width: isMobile ? "100%" : 350 }}>
+  <div style={{ width: isMobile ? "100%" : 350, 
+    flex:"1 1 300%"
+  }}>
     <h2>My Requests</h2>
 
     {leaves.map((leave: any) => (
