@@ -118,17 +118,6 @@ useEffect(() => {
     year: "numeric",
   })
 }
-
-const inputDateStyle = {
-  width: "100%",
-  padding: "10px",
-  marginTop: 5,
-  borderRadius: 8,
-  border: "1px solid #333",
-  background: "#1e293b",
-  color: "white",
-}
-
 function formatInputDate(date: Date | null) {
   if (!date) return ""
 
@@ -137,6 +126,18 @@ function formatInputDate(date: Date | null) {
   const day = String(date.getDate()).padStart(2, "0")
 
   return `${year}-${month}-${day}`
+}
+async function deleteLeave(id: number) {
+  const token = localStorage.getItem("token")
+
+  await fetch(`api/leaves/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  setLeaves((prev: any[]) => prev.filter(l => l.id !== id))
 }
 
 return (
@@ -397,8 +398,24 @@ return (
           padding: 10,
           background: "#1e293b",
           borderRadius: 8,
+          position: "relative",
         }}
       >
+        <button
+  onClick={() => deleteLeave(leave.id)}
+  style={{
+    position: "absolute",
+    top: 8,
+    right: 8,
+    background: "transparent",
+    border: "none",
+    color: "#ef4444",
+    fontSize: 16,
+    cursor: "pointer"
+  }}
+>
+  🗑️
+</button>
         <b>{leave.user?.name}</b>
         <div>
           {formatDate(leave.startDate)} → {formatDate(leave.endDate)}
