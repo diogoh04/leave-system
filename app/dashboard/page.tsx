@@ -129,7 +129,7 @@ function formatInputDate(date: Date | null) {
 async function deleteLeave(id: number) {
   const token = localStorage.getItem("token")
 
-  await fetch(`api/leaves/${id}`, {
+  await fetch(`/api/leaves/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`

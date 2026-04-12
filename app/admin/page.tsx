@@ -100,6 +100,25 @@ const filteredLeaves = leaves.filter((leave: any) => {
   background: "#0f172a",
   color: "white",
 }
+async function deleteLeave(id: number) {
+  const token = localStorage.getItem("token")
+
+  const res = await fetch(`/api/leaves/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token || ""}`,
+    },
+  })
+
+  const data = await res.json()
+
+  if (!res.ok) {
+    alert(data.error || "Erro ao apagar pedido")
+    return
+  }
+
+  setLeaves((prev: any[]) => prev.filter((leave) => leave.id !== id))
+}
 
   return (
     <div style={container}>
@@ -177,6 +196,22 @@ const filteredLeaves = leaves.filter((leave: any) => {
                   style={rejectBtn}
                 >
                   ✖
+                </button>
+                <button
+                  onClick={() => {
+                  if (confirm("Deseja apagar este pedido?")) {
+                    deleteLeave(leave.id)
+                  }
+                }}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#ef4444",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+                >
+                🗑 Delete
                 </button>
               </div>
             </div>
