@@ -8,13 +8,18 @@ import dynamic from "next/dynamic"
 const Calendar = dynamic(() => import("react-calendar"), {
   ssr: false,
 })
+   type LeaveUser = {
+  name: string
+  type: string
+  status: string
+}
 
 export default function DashboardPage() {
   const [leaves, setLeaves] = useState<any[]>([])
   const [startDate, setStartDate] = useState<any>(null)
   const [endDate, setEndDate] = useState<any>(null)
   const [type, setType] = useState("Paid")
-  const [fullDates, setFullDates] = useState<Record<string, string>>({})
+  const [fullDates, setFullDates] = useState<Record<string, LeaveUser[]>>({})
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -219,7 +224,7 @@ return (
 
       tileClassName={({ date }) => {
   const key = date.toISOString().split("T")[0]
-  const users = fullDates[key] || []
+  const users: LeaveUser[] = fullDates[key] || []
   const count = users.length
 
   if (count >= 3) return "full-day"
@@ -243,6 +248,7 @@ return (
         const key = date.toISOString().split("T")[0]
         const users = fullDates[key] || []
         const count = users.length
+     
 
         if (count === 0) return null
 
@@ -255,10 +261,20 @@ return (
                 borderRadius: "50%",
                 background: count >= 3 ? "red" : "orange",
                 marginRight: 4,
+                cursor: "pointer"
               }}
+              className="dot"
             />
             <span style={{ fontSize: 10 }}>{count}</span>
+
+            <div className="tooltip">
+             {users.map((u: any, i: number) => (
+                <div key={i}>
+                    {u.name} ({u.type})
+                </div>
+                ))}
           </div>
+        </div>
         )
       }}
     />

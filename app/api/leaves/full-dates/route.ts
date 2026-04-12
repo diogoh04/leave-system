@@ -10,7 +10,7 @@ export async function GET() {
     }
   })
 
-  const datesMap: Record<string, string[]> = {}
+  const datesMap: Record<string, any[]> = {}
 
 function getDatesBetween(start: Date, end: Date) {
   const dates = []
@@ -34,7 +34,11 @@ for (const leave of leaves) {
       datesMap[key] = []
     }
 
-    datesMap[key].push(leave.user?.name || "User")
+    datesMap[key].push({
+  name: leave.user?.name || "User",
+  type: leave.type,
+  status: leave.status
+})
   }
 }
 
