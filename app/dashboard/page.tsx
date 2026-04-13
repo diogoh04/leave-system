@@ -347,43 +347,80 @@ return (
   width: 300,
   boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
 }}>
-  <h3 style={{ marginBottom: 10 }}>My Profile</h3>
 
-  <p><strong>Name:</strong> {user?.name}</p>
-  <p><strong>Email:</strong> {user?.email}</p>
+  <div
+  style={{
+    background: "#ffffff",
+    padding: "16px",
+    borderRadius: "12px",
+    width: "220px",
+    boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px"
+  }}
+>
+  {/* Nome */}
+  {!editing ? (
+    <>
+      <span
+        style={{
+          fontSize: "16px",
+          fontWeight: "600",
+          color: "#1f2937",
+          textAlign: "center"
+        }}
+      >
+        {user?.name || "Sem nome"}
+      </span>
 
-  <button
-    onClick={() => setEditing(true)}
-    style={{
-      marginTop: 10,
-      background: "#f59e0b",
-      color: "white",
-      border: "none",
-      padding: "6px 12px",
-      borderRadius: 6,
-      cursor: "pointer"
-    }}
-  >
-    Edit Name
-  </button>
-  {editing && (
-  <div style={{ marginTop: 10 }}>
-    <input
-      value={newName}
-      onChange={(e) => setNewName(e.target.value)}
-      style={{
-        padding: 6,
-        borderRadius: 6,
-        border: "1px solid #ccc",
-        width: "100%"
-      }}
-    />
+      <button
+        onClick={() => setEditing(true)}
+        style={{
+          background: "#f59e0b",
+          color: "white",
+          border: "none",
+          padding: "6px 10px",
+          borderRadius: "6px",
+          cursor: "pointer",
+          fontSize: "13px"
+        }}
+      >
+        Editar
+      </button>
+    </>
+  ) : (
+    <>
+      <input
+        value={newName}
+        onChange={(e) => setNewName(e.target.value)}
+        style={{
+          padding: "6px",
+          borderRadius: "6px",
+          border: "1px solid #ddd",
+          fontSize: "13px"
+        }}
+      />
 
-    <button onClick={handleUpdateName} style={{ marginTop: 8 }}>
-      Save
-    </button>
-  </div>
-)}
+      <button
+        onClick={handleUpdateName}
+        style={{
+          background: "#22c55e",
+          color: "white",
+          border: "none",
+          padding: "6px",
+          borderRadius: "6px",
+          cursor: "pointer",
+          fontSize: "13px"
+        }}
+      >
+        Salvar
+      </button>
+    </>
+  )}
+</div>
+  
+
 </div>
 
   {/* 📦 FORM */}
