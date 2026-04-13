@@ -332,6 +332,7 @@ return (
       }}
     />
   </div>
+
  <div style={{
   display: "flex",
   flexWrap: "wrap",
@@ -348,76 +349,45 @@ return (
   boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
 }}>
 
-  <div
+  {/* Card nome e Editar */}
+<div
   style={{
-    background: "#ffffff",
-    padding: "16px",
-    borderRadius: "12px",
-    width: "220px",
-    boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+    background: "#fff",
+    padding: "10px 14px",
+    borderRadius: "10px",
+    width: "260px",
     display: "flex",
-    flexDirection: "column",
-    gap: "12px"
+    alignItems: "center",
+    justifyContent: "space-between",
+    boxShadow: "0 6px 16px rgba(0,0,0,0.12)"
   }}
 >
   {/* Nome */}
-  {!editing ? (
-    <>
-      <span
-        style={{
-          fontSize: "16px",
-          fontWeight: "600",
-          color: "#1f2937",
-          textAlign: "center"
-        }}
-      >
-        {user?.name || "Sem nome"}
-      </span>
+  <span
+    style={{
+      fontSize: "14px",
+      fontWeight: "600",
+      color: "#1f2937"
+    }}
+  >
+    {user?.name}
+  </span>
 
-      <button
-        onClick={() => setEditing(true)}
-        style={{
-          background: "#f59e0b",
-          color: "white",
-          border: "none",
-          padding: "6px 10px",
-          borderRadius: "6px",
-          cursor: "pointer",
-          fontSize: "13px"
-        }}
-      >
-        Editar
-      </button>
-    </>
-  ) : (
-    <>
-      <input
-        value={newName}
-        onChange={(e) => setNewName(e.target.value)}
-        style={{
-          padding: "6px",
-          borderRadius: "6px",
-          border: "1px solid #ddd",
-          fontSize: "13px"
-        }}
-      />
-
-      <button
-        onClick={handleUpdateName}
-        style={{
-          background: "#22c55e",
-          color: "white",
-          border: "none",
-          padding: "6px",
-          borderRadius: "6px",
-          cursor: "pointer",
-          fontSize: "13px"
-        }}
-      >
-        Salvar
-      </button>
-    </>
-  )}
+  {/* Botão */}
+  <button
+    onClick={() => setEditing(true)}
+    style={{
+      background: "#f59e0b",
+      color: "#fff",
+      border: "none",
+      padding: "4px 8px",
+      borderRadius: "6px",
+      fontSize: "12px",
+      cursor: "pointer"
+    }}
+  >
+    Editar
+  </button>
 </div>
   
 
