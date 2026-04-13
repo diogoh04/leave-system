@@ -204,19 +204,100 @@ return (
     }}
   >
     {/* HEADER */}
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <h1>User Dashboard</h1>
+<div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20
+  }}
+>
+  <h1 style={{ fontSize: 22 }}>User Dashboard</h1>
+  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
 
-      <button
-        onClick={() => {
-          localStorage.removeItem("token")
-          window.location.href = "/login"
+    {/* USER CARD */}
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "6px",
+        background: "rgba(255,255,255,0.1)",
+        padding: "4px 8px",
+        borderRadius: "8px",
+        backdropFilter: "blur(6px)"
+      }}
+    >
+      {/* Avatar */}
+      <div
+        style={{
+          width: 20,
+          height: 20,
+          borderRadius: "50%",
+          background: "#6366f1",
+          color: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "10px",
+          fontWeight: "bold"
         }}
       >
-        Logout
+        {user?.name?.charAt(0)}
+      </div>
+
+      {/* Nome ou input */}
+      {editing ? (
+        <input
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+          style={{
+            fontSize: "12px",
+            padding: "2px 4px",
+            borderRadius: "4px",
+            border: "none"
+          }}
+        />
+      ) : (
+        <span style={{ fontSize: "12px" }}>
+          {user?.name}
+        </span>
+      )}
+
+      {/* Botão */}
+      <button
+        onClick={editing ? handleUpdateName : () => setEditing(true)}
+        style={{
+          background: "transparent",
+          border: "none",
+          cursor: "pointer",
+          fontSize: "12px"
+        }}
+      >
+        {editing ? "✔" : "✏️"}
       </button>
     </div>
 
+    {/* LOGOUT */}
+    <button
+      onClick={() => {
+        localStorage.removeItem("token")
+        window.location.href = "/login"
+      }}
+      style={{
+        fontSize: 12,
+        padding: "6px 10px",
+        borderRadius: 6,
+        border: "none",
+        background: "#ef4444",
+        color: "#fff",
+        cursor: "pointer"
+      }}
+    >
+      Logout
+    </button>
+
+  </div>
+</div>
     {/* CONTAINER PRINCIPAL */}
 <div
   style={{
@@ -348,48 +429,6 @@ return (
   width: 300,
   boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
 }}>
-
-  {/* Card nome e Editar */}
-<div
-  style={{
-    background: "#fff",
-    padding: "10px 14px",
-    borderRadius: "10px",
-    width: "260px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    boxShadow: "0 6px 16px rgba(0,0,0,0.12)"
-  }}
->
-  {/* Nome */}
-  <span
-    style={{
-      fontSize: "14px",
-      fontWeight: "600",
-      color: "#1f2937"
-    }}
-  >
-    {user?.name}
-  </span>
-
-  {/* Botão */}
-  <button
-    onClick={() => setEditing(true)}
-    style={{
-      background: "#f59e0b",
-      color: "#fff",
-      border: "none",
-      padding: "4px 8px",
-      borderRadius: "6px",
-      fontSize: "12px",
-      cursor: "pointer"
-    }}
-  >
-    Editar
-  </button>
-</div>
-  
 
 </div>
 
