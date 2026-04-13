@@ -49,11 +49,13 @@ useEffect(() => {
     fetchMyLeaves()
   }, [])
 
-  if (!mounted) return null
-
   useEffect(() => {
   fetchUser()
 }, [])
+
+  if (!mounted) return null
+
+  
 
 const fetchUser = async () => {
   const res = await fetch("/api/me")
