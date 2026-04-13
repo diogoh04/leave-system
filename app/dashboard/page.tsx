@@ -49,18 +49,19 @@ useEffect(() => {
     fetchMyLeaves()
   }, [])
   
- const fetchUser = async () => {
+const fetchUser = async () => {
   const token = localStorage.getItem("token")
 
   const res = await fetch("/api/me", {
+    method: "GET",
     headers: {
       Authorization: `Bearer ${token}`
     }
   })
 
   if (!res.ok) {
-    const errorData = await res.json()
-    console.log(errorData)
+    const error = await res.json()
+    console.log(error)
     return
   }
 
