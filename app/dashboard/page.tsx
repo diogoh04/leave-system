@@ -22,6 +22,9 @@ export default function DashboardPage() {
   const [fullDates, setFullDates] = useState<Record<string, LeaveUser[]>>({})
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const [editing, setEditing] = useState(false)
+  const [newName, setNewName] = useState("")
 
 useEffect(() => {
   const handleResize = () => {
@@ -47,6 +50,17 @@ useEffect(() => {
   }, [])
 
   if (!mounted) return null
+
+  useEffect(() => {
+  fetchUser()
+}, [])
+
+const fetchUser = async () => {
+  const res = await fetch("/api/me")
+  const data = await res.json()
+  setUser(data)
+  setNewName(data.name)
+}
 
   async function fetchMyLeaves() {
     const token = localStorage.getItem("token")
@@ -142,6 +156,19 @@ async function deleteLeave(id: number) {
   })
 
   setLeaves((prev: any[]) => prev.filter(l => l.id !== id))
+}
+const handleUpdateName = async () => {
+  await fetch("/api/me", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem("token")}`
+    },
+    body: JSON.stringify({ name: newName })
+  })
+
+  setEditing(false)
+  fetchUser()
 }
 
 return (
@@ -290,6 +317,51 @@ return (
   justifyContent: "center",
   alignItems: "flex-start"
 }}>
+  <div style={{
+  background: "white",
+  padding: 20,
+  borderRadius: 12,
+  width: 300,
+  boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+}}>
+  <h3 style={{ marginBottom: 10 }}>My Profile</h3>
+
+  <p><strong>Name:</strong> {user?.name}</p>
+  <p><strong>Email:</strong> {user?.email}</p>
+
+  <button
+    onClick={() => setEditing(true)}
+    style={{
+      marginTop: 10,
+      background: "#f59e0b",
+      color: "white",
+      border: "none",
+      padding: "6px 12px",
+      borderRadius: 6,
+      cursor: "pointer"
+    }}
+  >
+    Edit Name
+  </button>
+  {editing && (
+  <div style={{ marginTop: 10 }}>
+    <input
+      value={newName}
+      onChange={(e) => setNewName(e.target.value)}
+      style={{
+        padding: 6,
+        borderRadius: 6,
+        border: "1px solid #ccc",
+        width: "100%"
+      }}
+    />
+
+    <button onClick={handleUpdateName} style={{ marginTop: 8 }}>
+      Save
+    </button>
+  </div>
+)}
+</div>
 
   {/* 📦 FORM */}
   <div style={{
