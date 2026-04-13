@@ -273,7 +273,7 @@ return (
           fontSize: "12px"
         }}
       >
-        {editing ? "✔" : "✏️"}
+        {editing ? "✔" : "✏️ Editar"}
       </button>
     </div>
 
@@ -422,15 +422,6 @@ return (
   justifyContent: "center",
   alignItems: "flex-start"
 }}>
-  <div style={{
-  background: "white",
-  padding: 20,
-  borderRadius: 12,
-  width: 300,
-  boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
-}}>
-
-</div>
 
   {/* 📦 FORM */}
   <div style={{
