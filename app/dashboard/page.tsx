@@ -50,7 +50,14 @@ useEffect(() => {
   }, [])
   
   const fetchUser = async () => {
-  const res = await fetch("/api/me")
+  const token = localStorage.getItem("token")
+
+  const res = await fetch("/api/me", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
   const data = await res.json()
   setUser(data)
   setNewName(data.name)
