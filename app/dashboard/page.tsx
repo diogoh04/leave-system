@@ -49,7 +49,7 @@ useEffect(() => {
     fetchMyLeaves()
   }, [])
   
-  const fetchUser = async () => {
+ const fetchUser = async () => {
   const token = localStorage.getItem("token")
 
   const res = await fetch("/api/me", {
@@ -57,6 +57,12 @@ useEffect(() => {
       Authorization: `Bearer ${token}`
     }
   })
+
+  if (!res.ok) {
+    const errorData = await res.json()
+    console.log(errorData)
+    return
+  }
 
   const data = await res.json()
   setUser(data)
@@ -165,17 +171,26 @@ async function deleteLeave(id: number) {
   setLeaves((prev: any[]) => prev.filter(l => l.id !== id))
 }
 const handleUpdateName = async () => {
-  await fetch("/api/me", {
+  const token = localStorage.getItem("token")
+
+  const res = await fetch("/api/me", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem("token")}`
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify({ name: newName })
   })
 
+  if (!res.ok) {
+    const errorData = await res.json()
+    console.log(errorData)
+    return
+  }
+
+  const data = await res.json()
+  setUser(data)
   setEditing(false)
-  fetchUser()
 }
 
 return (
