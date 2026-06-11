@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     const now = new Date()
 
     // datas inválidas
-    if (start >= end) {
+    if (start > end) {
       return Response.json({ error: "Data inicial deve ser menor que final" }, { status: 400 })
     }
 
