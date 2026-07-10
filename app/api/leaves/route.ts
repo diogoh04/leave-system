@@ -34,6 +34,16 @@ export async function POST(req: Request) {
       return Response.json({ error: "Não pode marcar no passado" }, { status: 400 })
     }
 
+    // antecedência mínima de 15 dias
+    const diffDias = Math.ceil((start.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+
+    if (diffDias < 15) {
+      return Response.json(
+        { error: "Mínimo de 15 dias de antecedência para Requests, Qualquer Dúvida contate Supervisores." },
+        { status: 400 }
+      )
+    }
+
     // overlap
     const overlapping = await prisma.leaveRequest.findFirst({
       where: {
