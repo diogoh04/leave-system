@@ -16,8 +16,8 @@ export async function POST(req: Request) {
 
     // campos obrigatórios
     if (!startDate || !endDate || !type) {
-      alert("Selecione as datas")
-      return Response.json({ error: "Campos obrigatórios" }, { status: 400 })
+      alert("Select the dates")
+      return Response.json({ error: "Fill in the required fields" }, { status: 400 })
     }
 
     const start = new Date(startDate)
@@ -26,12 +26,12 @@ export async function POST(req: Request) {
 
     // datas inválidas
     if (start > end) {
-      return Response.json({ error: "Data inicial deve ser menor que final" }, { status: 400 })
+      return Response.json({ error: "The start date must be earlier than the end date" }, { status: 400 })
     }
 
     // passado
     if (start < now) {
-      return Response.json({ error: "Não pode marcar no passado" }, { status: 400 })
+      return Response.json({ error: "you cannot choose past dates" }, { status: 400 })
     }
 
     // antecedência mínima de 15 dias
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 
     if (diffDias < 15) {
       return Response.json(
-        { error: "Mínimo de 15 dias de antecedência para Requests, Qualquer Dúvida contate Supervisores." },
+        { error: "Minimum 15 days' notice required for holiday requests, Any questions talk with your manager." },
         { status: 400 }
       )
     }
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     })
 
     if (overlapping) {
-      return Response.json({ error: "Já existe um pedido neste período" }, { status: 400 })
+      return Response.json({ error: "there is already a request in this period" }, { status: 400 })
     }
 
     // 🔥 LIMITE DE 3 PESSOAS POR DIA
@@ -101,7 +101,7 @@ for (const date of requestedDates) {
 
   if (count >= 3) {
     return Response.json(
-      { error: `Dia ${date.toLocaleDateString("pt-PT")} já atingiu o limite de Team Leader no mesmo dia!` },
+      { error: `Dia ${date.toLocaleDateString("pt-PT")} has already reached the Team Leader limit on the same day!` },
       { status: 400 }
     )
   }

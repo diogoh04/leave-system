@@ -26,7 +26,7 @@ if (!res.ok) {
   return
 }
 
-alert("Conta criada!")
+alert("Account created successfully!")
    window.location.href = "/login"
   }
 
@@ -54,7 +54,7 @@ alert("Conta criada!")
         <h2 style={{ marginBottom: 20 }}>📝 Criar conta</h2>
 
         <input
-  placeholder="Nome"
+  placeholder="Name"
   value={name}
   onChange={(e) => setName(e.target.value)}
   style={input}

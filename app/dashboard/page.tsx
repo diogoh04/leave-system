@@ -88,7 +88,7 @@ const fetchUser = async () => {
     const data = await res.json()
 
     if (!res.ok) {
-      alert(data.error || "Erro ao buscar pedidos")
+      alert(data.error || "Error in search request")
       return
     }
 
@@ -113,7 +113,7 @@ const fetchUser = async () => {
     const token = localStorage.getItem("token")
 
     if (!startDate || !endDate) {                
-  alert("Seleciona as datas")
+  alert("Select the dates")
   return
 }
     const res = await fetch("/api/leaves", {
@@ -136,7 +136,7 @@ const fetchUser = async () => {
       return
     }
 
-    alert("Pedido criado com sucesso")
+    alert("request created succefuly!")
     setStartDate("")
     setEndDate("")
     setType("Paid")
@@ -334,7 +334,7 @@ return (
     textAlign: "center",
     fontWeight: 500
   }}>
-    Selecione o período de férias no calendário
+    Select the dates on the calendar.
   </p>
     <Calendar
       locale="pt-PT"
@@ -440,7 +440,7 @@ return (
 
     <div style={{ marginBottom: 10 }}>
       <label style={{ fontSize: 14, color: "#475569" }}>
-        Data início
+        Start Date 
       </label>
       <input
         type="date"
@@ -467,7 +467,7 @@ return (
 
     <div style={{ marginBottom: 15 }}>
       <label style={{ fontSize: 14, color: "#475569" }}>
-        Data fim
+        End Date
       </label>
       <input
         type="date"
@@ -553,7 +553,7 @@ return (
       >
         <button
         onClick={() => {
-  if (confirm("Deseja deletar este pedido?")) {
+  if (confirm("Are you sure you want to delete this request?")) {
     deleteLeave(leave.id)
   }
 }}

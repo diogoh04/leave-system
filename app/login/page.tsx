@@ -72,9 +72,9 @@ export default function LoginPage() {
         <button style={button} onClick={handleLogin}>Entrar</button>
 
         <p style={{ marginTop: 15, fontSize: 14 }}>
-          Não tem conta?{" "}
+          Do you have Account ?{" "}
           <a href="/signup" style={{ color: "#3b82f6" }}>
-            Criar conta
+            Create Account 
           </a>
         </p>
       </div>
