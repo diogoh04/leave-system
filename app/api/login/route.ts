@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
     if (!passwordMatch) {
       return Response.json(
-        { error: "Senha inválida" },
+        { error: "Invalid password" },
         { status: 401 }
       )
     }
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     )
 
     return Response.json({
-      message: "Login realizado com sucesso",
+      message: "Login successful.",
       token,
       role: user.role,
     })

@@ -27,7 +27,7 @@ export async function POST(req: Request) {
   } catch (error: any) {
     if (error.code === "P2002") {
       return Response.json(
-        { error: "Email já existe" },
+        { error: "Email Already exists" },
         { status: 400 }
       )
     }
@@ -56,7 +56,7 @@ export async function GET(req: Request) {
   })
 
    if (!user) {
-    return Response.json({ error: "User não encontrado" }, { status: 404 })
+    return Response.json({ error: "User doesn't Find " }, { status: 404 })
   }
 
   return Response.json(user)
