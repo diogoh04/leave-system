@@ -273,7 +273,7 @@ return (
           fontSize: "12px"
         }}
       >
-        {editing ? "✔" : "✏️ Editar"}
+        {editing ? "✔" : "✏️ Edit name"}
       </button>
     </div>
 
