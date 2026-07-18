@@ -34,7 +34,7 @@ export default function Home() {
         }}
         >
           <Image
-          src="/Bidvest-Noonan-transparent.png"
+          src="/Bidvest-Noonan-logo.png"
           alt="Bidvest Noonan"
           width={320}
           height={110}
