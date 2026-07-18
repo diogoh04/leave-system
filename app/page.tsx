@@ -27,25 +27,27 @@ export default function Home() {
         {/* Logo */}
         <div
         style={{
-          background: "#ffffff",
-          borderRadius: 12,
-          padding: "12px 20px",
-          display: "inline-block",
-          marginBottom: 20,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginBottom: 30,
         }}
         >
           <Image
-          src="/Bidvest-noonan.jpg"
+          src="/Bidvest-Noonan.png"
           alt="Bidvest Noonan"
-          width={220}
-          height={70}
+          width={320}
+          height={110}
           priority
+          style={{
+            marginBottom: 20,
+          }}
           />
         </div>
 
-        <h2 style={{ marginBottom: 10 }}>🚀 Leaves Request</h2>
+        <h2 style={{ margin: 0, fontSize: 28, fontWeight:"bold", }}>🚀 Leaves Request</h2>
 
-        <p style={{ color: "#94a3b8", marginBottom: 30 }}>
+        <p style={{ color: "#94a3b8", marginTop: 8 }}>
           Bidvest Noonan Vaction Management
         </p>
 
@@ -57,7 +59,7 @@ export default function Home() {
                 padding: "10px",
                 borderRadius: 6,
                 border: "none",
-                background: "#22c55e",
+                background: "#0000b9",
                 color: "white",
                 cursor: "pointer",
                 fontWeight: "bold",
