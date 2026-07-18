@@ -45,13 +45,13 @@ alert("Account created successfully!")
       <div
         style={{
           background: "#1e293b",
-          padding: 40,3
+          padding: 40,
           borderRadius: 12,
           width: 350,
           boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
         }}
       >
-        <h2 style={{ marginBottom: 20 }}>📝 Criar conta</h2>
+        <h2 style={{ marginBottom: 20 }}>📝 Create Account</h2>
 
         <input
   placeholder="Name"
