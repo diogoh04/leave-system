@@ -337,7 +337,7 @@ return (
     Select the dates on the calendar.
   </p>
     <Calendar
-      locale="pt-PT"
+      locale="en-GB"
 
       onClickDay={(date) => {
   if (!startDate || (startDate && endDate)) {

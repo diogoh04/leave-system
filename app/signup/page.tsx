@@ -22,7 +22,7 @@ console.log("STATUS:", res.status)
 console.log("DATA:", data)
 
 if (!res.ok) {
-  alert(data.error || "Erro ao criar conta")
+  alert(data.error || "Error in create account")
   return
 }
 
@@ -75,10 +75,10 @@ alert("Account created successfully!")
   style={input}
 />
 
-        <button style={button} onClick={handleSignup}>Criar conta</button>
+        <button style={button} onClick={handleSignup}>Create Account</button>
 
         <p style={{ marginTop: 15, fontSize: 14 }}>
-          Já tem conta?{" "}
+          Do you already have Account?{" "}
           <a href="/login" style={{ color: "#3b82f6" }}>
             Login
           </a>

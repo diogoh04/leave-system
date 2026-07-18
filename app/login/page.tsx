@@ -69,7 +69,7 @@ export default function LoginPage() {
   style={input}
 />
 
-        <button style={button} onClick={handleLogin}>Entrar</button>
+        <button style={button} onClick={handleLogin}>Enter</button>
 
         <p style={{ marginTop: 15, fontSize: 14 }}>
           Do you have Account ?{" "}
