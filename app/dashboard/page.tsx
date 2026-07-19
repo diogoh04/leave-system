@@ -216,25 +216,7 @@ return (
   <h1 style={{ fontSize: 22 }}>User Dashboard</h1>
   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
 
-    <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginBottom: 30,
-            }}
-            >
-              <Image
-              src="/Bidvest-noonan.jpg"
-              alt="Bidvest Noonan"
-              width={130}
-              height={50}
-              priority
-              style={{
-                marginBottom: 20,
-              }}
-              />
-            </div>
+   
 
     {/* USER CARD */}
     <div
@@ -336,6 +318,27 @@ return (
       marginTop: 40,
     }}
   >
+     <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              
+              alignItems: "center",
+              marginBottom: 30,
+            }}
+            >
+              <Image
+              src="/Bidvest-noonan.jpg"
+              alt="Bidvest Noonan"
+              width={130}
+              height={50}
+              priority
+              style={{
+                marginBottom: 20,
+              }}
+              />
+            </div>
+
   {/* CALENDARIO*/}
  <div style={{
   flex: "1 1 400px",
