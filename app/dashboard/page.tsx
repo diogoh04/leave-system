@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import "react-calendar/dist/Calendar.css"
 import dynamic from "next/dynamic"
+import Image from "next/image"
 
 const Calendar = dynamic(() => import("react-calendar"), {
   ssr: false,
@@ -214,6 +215,26 @@ return (
 >
   <h1 style={{ fontSize: 22 }}>User Dashboard</h1>
   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+
+    <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginBottom: 30,
+            }}
+            >
+              <Image
+              src="/Bidvest-noonan.jpg"
+              alt="Bidvest Noonan"
+              width={130}
+              height={50}
+              priority
+              style={{
+                marginBottom: 20,
+              }}
+              />
+            </div>
 
     {/* USER CARD */}
     <div
