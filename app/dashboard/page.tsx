@@ -330,8 +330,8 @@ return (
               <Image
               src="/Bidvest-noonan.jpg"
               alt="Bidvest Noonan"
-              width={80}
-              height={50}
+              width={150}
+              height={10}
               priority
               style={{
                 marginBottom: 20,
