@@ -281,8 +281,8 @@ return (
       </div>
     </div>
 
-    {/* GRID PRINCIPAL: sidebar + calendario */}
-    <div className="top-grid">
+        {/* GRID PRINCIPAL: sidebar + calendario */}
+    <div className="top-row">
       <div className="sidebar-col">
         <Image
           src="/Bidvest-noonan.jpg"
@@ -364,7 +364,7 @@ return (
     </div>
 
     {/* GRID INFERIOR: form + pedidos */}
-    <div className="bottom-grid">
+    <div className="bottom-row">
       <div className="card form-card">
         <h2 style={{ marginBottom: 15, color: "#1e293b", fontSize: 16 }}>New Request</h2>
 
@@ -409,10 +409,15 @@ return (
         </button>
       </div>
 
-      <div className="requests-col">
-        <h2 style={{ fontSize: 16, marginBottom: 10 }}>My Requests</h2>
+      <div className="card requests-card">
+        <h2 style={{ fontSize: 16, marginBottom: 12, color: "#1e293b" }}>My Requests</h2>
+
+        {leaves.length === 0 && (
+          <p style={{ fontSize: 13, color: "#94a3b8" }}>You have no requests yet.</p>
+        )}
+
         {leaves.map((leave: any) => (
-          <div key={leave.id} style={{ marginBottom: 10, padding: 12, background: "rgba(255,255,255,0.06)", borderRadius: 10, position: "relative" }}>
+          <div key={leave.id} style={{ marginBottom: 10, padding: 12, background: "#f1f5f9", borderRadius: 10, position: "relative" }}>
             <button
               onClick={() => {
                 if (confirm("Are you sure you want to delete this request?")) deleteLeave(leave.id)
@@ -421,12 +426,12 @@ return (
             >
               🗑️
             </button>
-            <b style={{ fontSize: 13 }}>{leave.user?.name}</b>
-            <div style={{ fontSize: 13, color: "#cbd5e1" }}>
+            <b style={{ fontSize: 13, color: "#0f172a" }}>{leave.user?.name}</b>
+            <div style={{ fontSize: 13, color: "#475569" }}>
               {formatDate(leave.startDate)} → {formatDate(leave.endDate)}
             </div>
-            <div style={{ fontSize: 13, color: "#cbd5e1" }}>Status: {leave.status}</div>
-            <div style={{ fontSize: 13, color: "#cbd5e1" }}>Type: {leave.type}</div>
+            <div style={{ fontSize: 13, color: "#475569" }}>Status: {leave.status}</div>
+            <div style={{ fontSize: 13, color: "#475569" }}>Type: {leave.type}</div>
           </div>
         ))}
       </div>
@@ -439,42 +444,55 @@ return (
         padding: 20px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
-      .top-grid {
-        display: grid;
-        grid-template-columns: 240px 1fr;
+      .top-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 24px;
-        max-width: 1200px;
+        max-width: 1000px;
         margin: 0 auto 24px;
-        align-items: start;
       }
       .sidebar-col {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 16px;
+        width: 240px;
+        flex-shrink: 0;
       }
       .calendar-card {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: fit-content;
       }
-      .bottom-grid {
-        display: grid;
-        grid-template-columns: 350px 1fr;
+      .bottom-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 24px;
-        max-width: 1200px;
+        max-width: 800px;
         margin: 0 auto;
-        align-items: start;
       }
-      @media (max-width: 800px) {
-        .top-grid,
-        .bottom-grid {
-          grid-template-columns: 1fr;
+      .form-card {
+        width: 340px;
+        flex-shrink: 0;
+      }
+      .requests-card {
+        width: 340px;
+        flex-shrink: 0;
+      }
+      @media (max-width: 600px) {
+        .sidebar-col,
+        .form-card,
+        .requests-card {
+          width: 100%;
         }
-        .sidebar-col {
-          align-items: stretch;
+        .calendar-card {
+          width: 100%;
         }
       }
     `}</style>
   </div>
-)}
+)
+}
