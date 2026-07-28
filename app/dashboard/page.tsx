@@ -281,34 +281,31 @@ return (
       </div>
     </div>
 
-        {/* GRID PRINCIPAL: sidebar + calendario */}
-       {/* GRID PRINCIPAL: sidebar + calendario */}
-    <div className="top-row">
-      <div className="sidebar-col">
-        <Image
-          src="/Bidvest-noonan.jpg"
-          alt="Bidvest Noonan"
-          width={150}
-          height={10}
-          priority
-          style={{ borderRadius: 8 }}
-        />
+    {/* COLUNA ÚNICA: sempre vertical, no mobile e no desktop */}
+    <div className="main-col">
+      <Image
+        src="/Bidvest-noonan.jpg"
+        alt="Bidvest Noonan"
+        width={100}
+        height={7}
+        priority
+        style={{ borderRadius: 8 }}
+      />
 
-        <div className="card">
-          <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: "#0f172a" }}>
-            How to use this site
-          </h3>
-          <ol style={{ fontSize: 12, color: "#475569", paddingLeft: 16, lineHeight: 1.6, margin: 0 }}>
-            <li>Select the dates on the calendar — start date and end date.</li>
-            <li>Your request must be made at least 15 days in advance.</li>
-            <li>Only 3 team leaders can be on holiday on the same day.</li>
-            <li>Choose the type of holiday.</li>
-            <li>Your request will remain pending until approved or declined by your supervisor.</li>
-          </ol>
-          <p style={{ fontSize: 11, color: "#94a3b8", marginTop: 10, fontStyle: "italic" }}>
-            If you have any questions, contact your supervisor.
-          </p>
-        </div>
+      <div className="card">
+        <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: "#0f172a" }}>
+          How to use this site
+        </h3>
+        <ol style={{ fontSize: 12, color: "#475569", paddingLeft: 16, lineHeight: 1.6, margin: 0 }}>
+          <li>Select the dates on the calendar — start date and end date.</li>
+          <li>Your request must be made at least 15 days in advance.</li>
+          <li>Only 3 team leaders can be on holiday on the same day.</li>
+          <li>Choose the type of holiday.</li>
+          <li>Your request will remain pending until approved or declined by your supervisor.</li>
+        </ol>
+        <p style={{ fontSize: 11, color: "#94a3b8", marginTop: 10, fontStyle: "italic" }}>
+          If you have any questions, contact your supervisor.
+        </p>
       </div>
 
       <div className="card calendar-card">
@@ -362,10 +359,7 @@ return (
           }}
         />
       </div>
-    </div>
 
-    {/* GRID INFERIOR: form + pedidos */}
-    <div className="bottom-row">
       <div className="card form-card">
         <h2 style={{ marginBottom: 15, color: "#1e293b", fontSize: 16 }}>New Request</h2>
 
@@ -445,53 +439,24 @@ return (
         padding: 20px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
-      .top-row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 24px;
-        max-width: 1000px;
-        margin: 0 auto 24px;
-      }
-      .sidebar-col {
+      .main-col {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 16px;
-        width: 240px;
-        flex-shrink: 0;
+        gap: 20px;
+        max-width: 400px;
+        margin: 0 auto;
       }
       .calendar-card {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: fit-content;
+        max-width: 100%;
       }
-      .bottom-row {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 24px;
-        max-width: 800px;
-        margin: 0 auto;
-      }
-      .form-card {
-        width: 340px;
-        flex-shrink: 0;
-      }
+      .form-card,
       .requests-card {
-        width: 340px;
-        flex-shrink: 0;
-      }
-      @media (max-width: 600px) {
-        .sidebar-col,
-        .form-card,
-        .requests-card {
-          width: 100%;
-        }
-        .calendar-card {
-          width: 100%;
-        }
+        width: 100%;
       }
     `}</style>
   </div>
