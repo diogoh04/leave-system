@@ -318,11 +318,10 @@ return (
       marginTop: 40,
     }}
   >
-     <div
+      <div
             style={{
               display: "flex",
               flexDirection: "column",
-              
               alignItems: "center",
               marginBottom: 30,
             }}
@@ -337,7 +336,48 @@ return (
                 marginBottom: 20,
               }}
               />
+
+              {/* INSTRUCTIONS CARD */}
+              <div style={{
+                background: "white",
+                padding: 16,
+                borderRadius: 12,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                maxWidth: 220,
+                color: "#1e293b"
+              }}>
+                <h3 style={{
+                  fontSize: 13,
+                  fontWeight: "bold",
+                  marginBottom: 8,
+                  color: "#0f172a"
+                }}>
+                  How to use this site
+                </h3>
+                <ol style={{
+                  fontSize: 11,
+                  color: "#475569",
+                  paddingLeft: 16,
+                  lineHeight: 1.5,
+                  margin: 0
+                }}>
+                  <li>Select the dates on the calendar — start date and end date.</li>
+                  <li>Your request must be made at least 15 days in advance.</li>
+                  <li>Only 3 team leaders can be on holiday on the same day.</li>
+                  <li>Choose the type of holiday.</li>
+                  <li>Your request will remain pending until approved or declined by your supervisor.</li>
+                </ol>
+                <p style={{
+                  fontSize: 11,
+                  color: "#94a3b8",
+                  marginTop: 10,
+                  fontStyle: "italic"
+                }}>
+                  If you have any questions, contact your manager.
+                </p>
+              </div>
             </div>
+
 
   {/* CALENDARIO*/}
  <div style={{

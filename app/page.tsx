@@ -45,9 +45,9 @@ export default function Home() {
           />
         </div>
 
-        <h2 style={{ margin: 0, fontSize: 28, fontWeight:"bold", }}>🚀 Leaves Request</h2>
+        <h2 style={{ margin: 0, fontSize: 28, fontWeight:"bold", color: "#1a2537"}}>Leaves Request</h2>
 
-        <p style={{ color: "#94a3b8", marginTop: 8 }}>
+        <p style={{ color: "#1a2537", marginTop: 8 }}>
           Holiday Management
         </p>
 
