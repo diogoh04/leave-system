@@ -9,7 +9,7 @@ export default function Home() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#0f172a", // dark moderno
+        background: "#f7f8f9", // dark moderno
         color: "white",
         fontFamily: "Arial",
       }}
@@ -48,7 +48,7 @@ export default function Home() {
         <h2 style={{ margin: 0, fontSize: 28, fontWeight:"bold", }}>🚀 Leaves Request</h2>
 
         <p style={{ color: "#94a3b8", marginTop: 8 }}>
-          Bidvest Noonan Vaction Management
+          Holiday Management
         </p>
 
         <div style={{ display: "flex", gap: 10 }}>
