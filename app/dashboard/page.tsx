@@ -270,7 +270,7 @@ return (
             padding: "6px 12px",
             borderRadius: 8,
             border: "none",
-            background: "#3b82f6",
+            background: "#fa2828",
             color: "#fff",
             cursor: "pointer",
             fontWeight: 600,
@@ -284,7 +284,7 @@ return (
     {/* COLUNA ÚNICA: sempre vertical, no mobile e no desktop */}
     <div className="main-col">
       <Image
-        src="/Bidvest-noonan.jpg"
+        src="/Bidvest-noonanlogo.jpg"
         alt="Bidvest Noonan"
         width={100}
         height={7}
@@ -297,19 +297,19 @@ return (
           How to use this site
         </h3>
         <ol style={{ fontSize: 12, color: "#475569", paddingLeft: 16, lineHeight: 1.6, margin: 0 }}>
-          <li>Select the dates on the calendar — start date and end date.</li>
-          <li>Your request must be made at least 15 days in advance.</li>
-          <li>Only 3 team leaders can be on holiday on the same day.</li>
-          <li>Choose the type of holiday.</li>
-          <li>Your request will remain pending until approved or declined by your supervisor.</li>
+          <li>1. Select the dates on the calendar — start date and end date.</li>
+          <li>2. Your request must be made at least 15 days in advance.</li>
+          <li>3. Only 3 team leaders can be on holiday on the same day.</li>
+          <li>4. Colors for dates on the calendar: white is available; yellow has a team leader on this day, but is still available; red is unavailable..</li>
+          <li>5. Your request will remain pending until approved or declined by your supervisor.</li>
         </ol>
-        <p style={{ fontSize: 11, color: "#94a3b8", marginTop: 10, fontStyle: "italic" }}>
+        <p style={{ fontSize: 11, color: "#717c8b", marginTop: 10, fontStyle: "italic" }}>
           If you have any questions, contact your supervisor.
         </p>
       </div>
 
       <div className="card calendar-card">
-        <p style={{ marginBottom: 12, fontSize: 14, color: "#94a3b8", textAlign: "center", fontWeight: 500 }}>
+        <p style={{ marginBottom: 12, fontSize: 14, color: "#57606d", textAlign: "center", fontWeight: 500 }}>
           Select the dates on the calendar.
         </p>
         <Calendar
@@ -419,7 +419,7 @@ return (
               }}
               style={{ position: "absolute", top: 10, right: 10, background: "transparent", border: "none", color: "#ef4444", fontSize: 13, cursor: "pointer" }}
             >
-              🗑️
+              Delete 🗑️
             </button>
             <b style={{ fontSize: 13, color: "#0f172a" }}>{leave.user?.name}</b>
             <div style={{ fontSize: 13, color: "#475569" }}>
