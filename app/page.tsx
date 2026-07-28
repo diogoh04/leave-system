@@ -9,7 +9,7 @@ export default function Home() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#f7f8f9", // dark moderno
+        background: "#1a2537", // dark moderno
         color: "white",
         fontFamily: "Arial",
       }}
@@ -19,7 +19,7 @@ export default function Home() {
           textAlign: "center",
           padding: 40,
           borderRadius: 16,
-          background: "#1e293b",
+          background: "#f2f4f8",
           boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
           width: 380,
         }}
