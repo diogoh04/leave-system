@@ -201,452 +201,280 @@ return (
       minHeight: "100vh",
       background: "linear-gradient(to bottom right, #0f172a, #1e293b)",
       color: "white",
-      padding: 30,
+      padding: "20px 16px",
     }}
   >
     {/* HEADER */}
-<div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20
-  }}
->
-  <h1 style={{ fontSize: 22 }}>User Dashboard</h1>
-  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-
-   
-
-    {/* USER CARD */}
     <div
       style={{
         display: "flex",
+        justifyContent: "space-between",
         alignItems: "center",
-        gap: "6px",
-        background: "rgba(255,255,255,0.1)",
-        padding: "4px 8px",
-        borderRadius: "8px",
-        backdropFilter: "blur(6px)"
+        flexWrap: "wrap",
+        gap: 12,
+        marginBottom: 24,
+        maxWidth: 1200,
+        margin: "0 auto 24px",
       }}
     >
-      {/* Avatar */}
-      <div
-        style={{
-          width: 20,
-          height: 20,
-          borderRadius: "50%",
-          background: "#6366f1",
-          color: "#fff",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "10px",
-          fontWeight: "bold"
-        }}
-      >
-        {user?.name?.charAt(0)}
+      <h1 style={{ fontSize: 20, fontWeight: 600 }}>User Dashboard</h1>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            background: "rgba(255,255,255,0.08)",
+            padding: "5px 10px",
+            borderRadius: 8,
+          }}
+        >
+          <div
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: "50%",
+              background: "#3b82f6",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 10,
+              fontWeight: "bold",
+            }}
+          >
+            {user?.name?.charAt(0)}
+          </div>
+          {editing ? (
+            <input
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              style={{ fontSize: 12, padding: "2px 4px", borderRadius: 4, border: "none" }}
+            />
+          ) : (
+            <span style={{ fontSize: 12 }}>{user?.name}</span>
+          )}
+          <button
+            onClick={editing ? handleUpdateName : () => setEditing(true)}
+            style={{ background: "transparent", border: "none", cursor: "pointer", fontSize: 12, color: "white" }}
+          >
+            {editing ? "✔" : "✏️"}
+          </button>
+        </div>
+        <button
+          onClick={() => {
+            localStorage.removeItem("token")
+            window.location.href = "/login"
+          }}
+          style={{
+            fontSize: 12,
+            padding: "6px 12px",
+            borderRadius: 8,
+            border: "none",
+            background: "#3b82f6",
+            color: "#fff",
+            cursor: "pointer",
+            fontWeight: 600,
+          }}
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+
+    {/* GRID PRINCIPAL: sidebar + calendario */}
+    <div className="top-grid">
+      <div className="sidebar-col">
+        <Image
+          src="/Bidvest-noonan.jpg"
+          alt="Bidvest Noonan"
+          width={150}
+          height={10}
+          priority
+          style={{ borderRadius: 8 }}
+        />
+
+        <div className="card">
+          <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: "#0f172a" }}>
+            How to use this site
+          </h3>
+          <ol style={{ fontSize: 12, color: "#475569", paddingLeft: 16, lineHeight: 1.6, margin: 0 }}>
+            <li>Select the dates on the calendar — start date and end date.</li>
+            <li>Your request must be made at least 15 days in advance.</li>
+            <li>Only 3 team leaders can be on holiday on the same day.</li>
+            <li>Choose the type of holiday.</li>
+            <li>Your request will remain pending until approved or declined by your supervisor.</li>
+          </ol>
+          <p style={{ fontSize: 11, color: "#94a3b8", marginTop: 10, fontStyle: "italic" }}>
+            If you have any questions, contact your supervisor.
+          </p>
+        </div>
       </div>
 
-      {/* Nome ou input */}
-      {editing ? (
-        <input
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-          style={{
-            fontSize: "12px",
-            padding: "2px 4px",
-            borderRadius: "4px",
-            border: "none"
+      <div className="card calendar-card">
+        <p style={{ marginBottom: 12, fontSize: 14, color: "#94a3b8", textAlign: "center", fontWeight: 500 }}>
+          Select the dates on the calendar.
+        </p>
+        <Calendar
+          locale="en-GB"
+          onClickDay={(date) => {
+            if (!startDate || (startDate && endDate)) {
+              setStartDate(date)
+              setEndDate(null)
+            } else {
+              if (date < startDate) {
+                setEndDate(startDate)
+                setStartDate(date)
+              } else {
+                setEndDate(date)
+              }
+            }
+          }}
+          tileClassName={({ date }) => {
+            const key = date.toISOString().split("T")[0]
+            const users: LeaveUser[] = fullDates[key] || []
+            const count = users.length
+
+            if (count >= 3) return "full-day"
+            if (startDate && endDate) {
+              if (date >= startDate && date <= endDate) return "selected-range"
+            }
+            if (startDate && date.toDateString() === startDate.toDateString()) return "selected-start"
+            if (endDate && date.toDateString() === endDate.toDateString()) return "selected-end"
+            if (count >= 1) return "busy-day"
+            return ""
+          }}
+          tileContent={({ date }) => {
+            const key = date.toISOString().split("T")[0]
+            const users = fullDates[key] || []
+            const count = users.length
+            if (count === 0) return null
+
+            return (
+              <div
+                style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4, marginTop: 4, cursor: "pointer" }}
+                title={users.map((u) => `${u.name} (${u.type})`).join("\n")}
+              >
+                <div style={{ width: 6, height: 6, borderRadius: "50%", background: count >= 3 ? "#ef4444" : "#3b82f6" }} />
+                <span style={{ fontSize: 10 }}>{count}</span>
+              </div>
+            )
           }}
         />
-      ) : (
-        <span style={{ fontSize: "12px" }}>
-          {user?.name}
-        </span>
-      )}
-
-      {/* Botão */}
-      <button
-        onClick={editing ? handleUpdateName : () => setEditing(true)}
-        style={{
-          background: "transparent",
-          border: "none",
-          cursor: "pointer",
-          fontSize: "12px"
-        }}
-      >
-        {editing ? "✔" : "✏️ Edit name"}
-      </button>
-    </div>
-
-    {/* LOGOUT */}
-    <button
-      onClick={() => {
-        localStorage.removeItem("token")
-        window.location.href = "/login"
-      }}
-      style={{
-        fontSize: 12,
-        padding: "6px 10px",
-        borderRadius: 6,
-        border: "none",
-        background: "#ef4444",
-        color: "#fff",
-        cursor: "pointer"
-      }}
-    >
-      Logout
-    </button>
-
-  </div>
-</div>
-    {/* CONTAINER PRINCIPAL */}
-<div
-  style={{
-    maxWidth: 1200,
-    margin: "0 auto",
-    padding: 20,
-  }}
->
-  <div
-    style={{
-      display: "flex",
-      flexWrap: "wrap", 
-      justifyContent: "center",
-      gap: 30,
-      marginTop: 40,
-    }}
-  >
-      <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginBottom: 30,
-            }}
-            >
-              <Image
-              src="/Bidvest-noonan.jpg"
-              alt="Bidvest Noonan"
-              width={150}
-              height={10}
-              priority
-              style={{
-                marginBottom: 20,
-              }}
-              />
-
-              {/* INSTRUCTIONS CARD */}
-              <div style={{
-                background: "white",
-                padding: 16,
-                borderRadius: 12,
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                maxWidth: 220,
-                color: "#1e293b"
-              }}>
-                <h3 style={{
-                  fontSize: 13,
-                  fontWeight: "bold",
-                  marginBottom: 8,
-                  color: "#0f172a"
-                }}>
-                  How to use this site
-                </h3>
-                <ol style={{
-                  fontSize: 11,
-                  color: "#475569",
-                  paddingLeft: 16,
-                  lineHeight: 1.5,
-                  margin: 0
-                }}>
-                  <li>Select the dates on the calendar — start date and end date.</li>
-                  <li>Your request must be made at least 15 days in advance.</li>
-                  <li>Only 3 team leaders can be on holiday on the same day.</li>
-                  <li>Choose the type of holiday.</li>
-                  <li>Your request will remain pending until approved or declined by your supervisor.</li>
-                </ol>
-                <p style={{
-                  fontSize: 11,
-                  color: "#94a3b8",
-                  marginTop: 10,
-                  fontStyle: "italic"
-                }}>
-                  If you have any questions, contact your manager.
-                </p>
-              </div>
-            </div>
-
-
-  {/* CALENDARIO*/}
- <div style={{
-  flex: "1 1 400px",
-  marginTop: 20,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  background: "rgba(255,255,255,0.05)",
-  padding: 15,
-  borderRadius: 12
-}}>
-
-  <p style={{
-    marginBottom: 12,
-    fontSize: 14,
-    color: "#94a3b8",
-    textAlign: "center",
-    fontWeight: 500
-  }}>
-    Select the dates on the calendar.
-  </p>
-    <Calendar
-      locale="en-GB"
-
-      onClickDay={(date) => {
-  if (!startDate || (startDate && endDate)) {
-    setStartDate(date)
-    setEndDate(null)
-  } else {
-    if (date < startDate) {
-      setEndDate(startDate)
-      setStartDate(date)
-    } else {
-      setEndDate(date)
-    }
-  }
-}}
-
-      tileClassName={({ date }) => {
-  const key = date.toISOString().split("T")[0]
-  const users: LeaveUser[] = fullDates[key] || []
-  const count = users.length
-
-  if (count >= 3) return "full-day"
-
-  if (startDate && endDate) {
-    if (date >= startDate && date <= endDate) {
-      return "selected-range"
-    }
-  }
-  if (startDate && date.toDateString() === startDate.toDateString()) {
-    return "selected-start"
-  }
-  if (endDate && date.toDateString() === endDate.toDateString()) {
-    return "selected-end"
-  }
-  if (count >= 1) return "busy-day"
-
-  return ""
-}}
-      tileContent={({ date }) => {
-        const key = date.toISOString().split("T")[0]
-        const users = fullDates[key] || []
-        const count = users.length
-     
-
-        if (count === 0) return null
-
-        return (
-          <div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 4,
-    marginTop: 4,
-    cursor: "pointer"
-  }}
-  title={users.map(u => `${u.name} (${u.type})`).join("\n")}
->
-  <div
-    style={{
-      width: 6,
-      height: 6,
-      borderRadius: "50%",
-      background: count >= 3 ? "red" : "orange"
-    }}
-  />
-
-  {/* quantidade de pessoas */}
-  <span style={{ fontSize: 10 }}>
-    {count}
-  </span>
-</div>
-          )
-      }}
-    />
-  </div>
-
- <div style={{
-  display: "flex",
-  flexWrap: "wrap",
-  gap: 40,
-  marginTop: 40,
-  justifyContent: "center",
-  alignItems: "flex-start"
-}}>
-
-  {/* 📦 FORM */}
-  <div style={{
-    background: "white",
-    padding: 20,
-    borderRadius: 12,
-    flex: "1 1 320px",
-    maxWidth: 350,
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-    position: "relative",
-    zIndex: 10
-  }}>
-    <h2 style={{ marginBottom: 15, color: "#1e293b" }}>
-      New Request
-    </h2>
-
-    <div style={{ marginBottom: 10 }}>
-      <label style={{ fontSize: 14, color: "#475569" }}>
-        Start Date 
-      </label>
-      <input
-        type="date"
-        readOnly
-        value={formatInputDate(startDate)}
-        onChange={(e) => setStartDate(new Date(e.target.value))}
-        />
-        {startDate && (
-       <p style={{
-          width: isMobile ? "100%" : 300,
-          padding: 8,
-          borderRadius: 6,
-          border: "1px solid #cbd5e1",
-          marginTop: 5,
-          background:"#f8fafc",
-          color:"#0f172a",
-          fontSize: 14,
-          outline:"none"
-        }}>
-          {formatDate(startDate.toISOString())}
-        </p>
-        )}
-    </div>
-
-    <div style={{ marginBottom: 15 }}>
-      <label style={{ fontSize: 14, color: "#475569" }}>
-        End Date
-      </label>
-      <input
-        type="date"
-        readOnly
-        value={formatInputDate(endDate)}
-        onChange={(e) => setEndDate(new Date(e.target.value))}
-        />
-        {endDate && (
-       <p style={{
-          width: "100%",
-          padding: 8,
-          borderRadius: 6,
-          border: "1px solid #cbd5e1",
-          marginTop: 5,
-          background:"#f8fafc",
-          color:"#0f172a",
-          fontSize: 14,
-          outline:"none"
-        }}>
-        {formatDate(endDate.toISOString())}
-      </p>
-        )}
-    </div>
-
-    <div style={{ marginBottom: 15 }}>
-  <label style={{ fontSize: 14, color: "#475569" }}>
-    Type
-  </label>
-
-  <select
-    value={type}
-    onChange={(e) => setType(e.target.value)}
-    style={{
-      width: "100%",
-      padding: 10,
-      borderRadius: 8,
-      border: "1px solid #cbd5e1",
-      marginTop: 5,
-      background: "#f1f5f9",
-      color: "#0f172a",
-      fontSize: 14
-    }}
-  >
-    <option value="Paid">💰 Paid</option>
-    <option value="Unpaid">🚫 Unpaid</option>
-    <option value="AA">🏖️ AA</option>
-  </select>
-</div>
-
-    <button
-      onClick={createLeave}
-      style={{
-        width: "100%",
-        padding: 10,
-        background: "#22c55e",
-        color: "white",
-        border: "none",
-        borderRadius: 8,
-        fontWeight: "bold",
-        cursor: "pointer"
-      }}
-    >
-      Create Request
-    </button>
-  </div>
-
-  {/* 📋 PEDIDOS */}
-  <div style={{ width: isMobile ? "100%" : 350, 
-    flex:"1 1 300%"
-  }}>
-    <h2>My Requests</h2>
-
-    {leaves.map((leave: any) => (
-      <div
-        key={leave.id}
-        style={{
-          marginBottom: 10,
-          padding: 10,
-          background: "#1e293b",
-          borderRadius: 8,
-          position: "relative",
-        }}
-      >
-        <button
-        onClick={() => {
-  if (confirm("Are you sure you want to delete this request?")) {
-    deleteLeave(leave.id)
-  }
-}}
-  style={{
-    position: "absolute",
-    top: 8,
-    right: 8,
-    background: "transparent",
-    border: "none",
-    color: "#ef4444",
-    fontSize: 16,
-    cursor: "pointer"
-  }}
->
-  🗑️ Delete
-</button>
-        <b>{leave.user?.name}</b>
-        <div>
-          {formatDate(leave.startDate)} → {formatDate(leave.endDate)}
-        </div>
-        <div>Status: {leave.status}</div>
-        <div>type: {leave.type}</div>
       </div>
-    ))}
-  </div>
-  </div>
-  </div>
+    </div>
 
+    {/* GRID INFERIOR: form + pedidos */}
+    <div className="bottom-grid">
+      <div className="card form-card">
+        <h2 style={{ marginBottom: 15, color: "#1e293b", fontSize: 16 }}>New Request</h2>
+
+        <div style={{ marginBottom: 10 }}>
+          <label style={{ fontSize: 14, color: "#475569" }}>Start Date</label>
+          <input type="date" readOnly value={formatInputDate(startDate)} onChange={(e) => setStartDate(new Date(e.target.value))} />
+          {startDate && (
+            <p style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cbd5e1", marginTop: 5, background: "#f8fafc", color: "#0f172a", fontSize: 14 }}>
+              {formatDate(startDate.toISOString())}
+            </p>
+          )}
+        </div>
+
+        <div style={{ marginBottom: 15 }}>
+          <label style={{ fontSize: 14, color: "#475569" }}>End Date</label>
+          <input type="date" readOnly value={formatInputDate(endDate)} onChange={(e) => setEndDate(new Date(e.target.value))} />
+          {endDate && (
+            <p style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cbd5e1", marginTop: 5, background: "#f8fafc", color: "#0f172a", fontSize: 14 }}>
+              {formatDate(endDate.toISOString())}
+            </p>
+          )}
+        </div>
+
+        <div style={{ marginBottom: 15 }}>
+          <label style={{ fontSize: 14, color: "#475569" }}>Type</label>
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #cbd5e1", marginTop: 5, background: "#f1f5f9", color: "#0f172a", fontSize: 14 }}
+          >
+            <option value="Paid">💰 Paid</option>
+            <option value="Unpaid">🚫 Unpaid</option>
+            <option value="AA">🏖️ AA</option>
+          </select>
+        </div>
+
+        <button
+          onClick={createLeave}
+          style={{ width: "100%", padding: 12, background: "#3b82f6", color: "white", border: "none", borderRadius: 8, fontWeight: "bold", cursor: "pointer" }}
+        >
+          Create Request
+        </button>
+      </div>
+
+      <div className="requests-col">
+        <h2 style={{ fontSize: 16, marginBottom: 10 }}>My Requests</h2>
+        {leaves.map((leave: any) => (
+          <div key={leave.id} style={{ marginBottom: 10, padding: 12, background: "rgba(255,255,255,0.06)", borderRadius: 10, position: "relative" }}>
+            <button
+              onClick={() => {
+                if (confirm("Are you sure you want to delete this request?")) deleteLeave(leave.id)
+              }}
+              style={{ position: "absolute", top: 10, right: 10, background: "transparent", border: "none", color: "#ef4444", fontSize: 13, cursor: "pointer" }}
+            >
+              🗑️
+            </button>
+            <b style={{ fontSize: 13 }}>{leave.user?.name}</b>
+            <div style={{ fontSize: 13, color: "#cbd5e1" }}>
+              {formatDate(leave.startDate)} → {formatDate(leave.endDate)}
+            </div>
+            <div style={{ fontSize: 13, color: "#cbd5e1" }}>Status: {leave.status}</div>
+            <div style={{ fontSize: 13, color: "#cbd5e1" }}>Type: {leave.type}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <style jsx>{`
+      .card {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      .top-grid {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        gap: 24px;
+        max-width: 1200px;
+        margin: 0 auto 24px;
+        align-items: start;
+      }
+      .sidebar-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      .calendar-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .bottom-grid {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+        align-items: start;
+      }
+      @media (max-width: 800px) {
+        .top-grid,
+        .bottom-grid {
+          grid-template-columns: 1fr;
+        }
+        .sidebar-col {
+          align-items: stretch;
+        }
+      }
+    `}</style>
   </div>
-  </div>
-)
-}
+)}
