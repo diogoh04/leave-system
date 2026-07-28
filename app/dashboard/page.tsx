@@ -282,6 +282,7 @@ return (
     </div>
 
         {/* GRID PRINCIPAL: sidebar + calendario */}
+       {/* GRID PRINCIPAL: sidebar + calendario */}
     <div className="top-row">
       <div className="sidebar-col">
         <Image
