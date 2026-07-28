@@ -63,68 +63,66 @@ export async function POST(req: Request) {
       return Response.json({ error: "there is already a request in this period" }, { status: 400 })
     }
 
-    // 🔥 LIMITE DE 3 PESSOAS POR DIA
+    // LIMITE DE 3 PESSOAS POR DIA (dentro de transação para evitar race condition)
 
-const overlappingLeaves = await prisma.leaveRequest.findMany({
-  where: {
-    status: { in: ["approved", "pending"] },
-    AND: [
-      { startDate: { lte: end } },
-      { endDate: { gte: start } }
-    ]
-  }
-})
-
-// função para gerar dias
-function getDatesBetween(start: Date, end: Date) {
-  const dates = []
-  const current = new Date(start)
-
-  while (current <= end) {
-    dates.push(new Date(current))
-    current.setDate(current.getDate() + 1)
-  }
-
-  return dates
-}
-
-const requestedDates = getDatesBetween(start, end)
-
-for (const date of requestedDates) {
-  let count = 0
-
-  for (const leave of overlappingLeaves) {
-    if (date >= leave.startDate && date <= leave.endDate) {
-      count++
-    }
-  }
-
-  if (count >= 3) {
-    return Response.json(
-      { error: `Dia ${date.toLocaleDateString("pt-PT")} has already reached the Team Leader limit on the same day!` },
-      { status: 400 }
-    )
-  }
-}
-
-    // criar pedido
-    const leave = await prisma.leaveRequest.create({
-      data: {
-        userId: user.userId,
-        startDate: start,
-        endDate: end,
-        type
+    function getDatesBetween(start: Date, end: Date) {
+      const dates = []
+      const current = new Date(start)
+      while (current <= end) {
+        dates.push(new Date(current))
+        current.setDate(current.getDate() + 1)
       }
+      return dates
+    }
+
+    const requestedDates = getDatesBetween(start, end)
+
+    const leave = await prisma.$transaction(async (tx) => {
+      const overlappingLeaves = await tx.leaveRequest.findMany({
+        where: {
+          status: { in: ["approved", "pending"] },
+          AND: [
+            { startDate: { lte: end } },
+            { endDate: { gte: start } }
+          ]
+        }
+      })
+
+      for (const date of requestedDates) {
+        let count = 0
+        for (const l of overlappingLeaves) {
+          if (date >= l.startDate && date <= l.endDate) count++
+        }
+        if (count >= 3) {
+          throw new Error(
+            `Dia ${date.toLocaleDateString("pt-PT")} has already reached the Team Leader limit on the same day!`
+          )
+        }
+      }
+
+      return tx.leaveRequest.create({
+        data: {
+          userId: user.userId,
+          startDate: start,
+          endDate: end,
+          type
+        }
+      })
+    }, {
+      isolationLevel: "Serializable"
     })
 
     return Response.json(leave)
 
-  } catch (err) {
+    } catch (err: any) {
     console.error(err)
+    if (err.message?.includes("Team Leader limit")) {
+      return Response.json({ error: err.message }, { status: 400 })
+    }
     return Response.json({ error: "Erro interno" }, { status: 500 })
   }
-}
 
+}
 export async function GET(req: Request) {
   const userId = req.headers.get("x-user-id")
   const role = req.headers.get("x-user-role")
