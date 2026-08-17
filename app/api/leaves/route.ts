@@ -88,12 +88,15 @@ export async function POST(req: Request) {
         }
       })
 
+      // Limite normal é 3 pessoas por dia. Para pedidos do tipo AA, o limite sobe para 6.
+      const dailyLimit = type === "AA" ? 6 : 3
+
       for (const date of requestedDates) {
         let count = 0
         for (const l of overlappingLeaves) {
           if (date >= l.startDate && date <= l.endDate) count++
         }
-        if (count >= 3) {
+        if (count >= dailyLimit) {
           throw new Error(
             `Dia ${date.toLocaleDateString("pt-PT")} has already reached the Team Leader limit on the same day!`
           )
