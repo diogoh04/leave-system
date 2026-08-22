@@ -1,85 +1,115 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
+import { colors, input, buttonStyle } from "@/lib/theme"
 
 export default function SignupPage() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
 
   async function handleSignup() {
+    if (!name || !email || !password) {
+      alert("Fill in all fields")
+      return
+    }
+
+    setLoading(true)
+
     const res = await fetch("/api/signup", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ name, email, password }),
-})
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    })
 
-const data = await res.json()
+    const data = await res.json()
+    setLoading(false)
 
-console.log("STATUS:", res.status)
-console.log("DATA:", data)
+    if (!res.ok) {
+      alert(data.error || "Error in create account")
+      return
+    }
 
-if (!res.ok) {
-  alert(data.error || "Error in create account")
-  return
-}
-
-alert("Account created successfully!")
-   window.location.href = "/login"
+    alert("Account created successfully!")
+    window.location.href = "/login"
   }
 
   return (
     <div
       style={{
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#0f172a",
-        color: "white",
-        fontFamily: "Arial",
+        background: colors.bg,
+        padding: 20,
       }}
     >
       <div
         style={{
-          background: "#1e293b",
-          padding: 40,
-          borderRadius: 12,
-          width: 350,
-          boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+          background: colors.card,
+          border: `1px solid ${colors.border}`,
+          borderRadius: 16,
+          padding: "36px 32px",
+          width: 360,
+          boxShadow: "0 4px 20px rgba(15, 23, 42, 0.08)",
         }}
       >
-        <h2 style={{ marginBottom: 20 }}>📝 Create Account</h2>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+          <Image src="/Bidvest-noonanlogo.jpg" alt="Bidvest Noonan" width={160} height={72} priority style={{ height: "auto" }} />
+        </div>
 
-        <input
-  placeholder="Name"
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-  style={input}
-/>
+        <h1 style={{ fontSize: 18, fontWeight: 700, color: colors.text, textAlign: "center", marginBottom: 4 }}>
+          Create Account
+        </h1>
+        <p style={{ fontSize: 13, color: colors.muted, textAlign: "center", marginBottom: 24 }}>
+          Sign up to request holidays and leave
+        </p>
 
-<input
-  placeholder="Email"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-  style={input}
-/>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleSignup()
+          }}
+        >
+          <label style={label}>Name</label>
+          <input
+            placeholder="Full name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            style={{ ...input, marginBottom: 14 }}
+          />
 
-<input
-  type="password"
-  placeholder="Password"
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-  style={input}
-/>
+          <label style={label}>Email</label>
+          <input
+            type="email"
+            placeholder="you@company.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ ...input, marginBottom: 14 }}
+          />
 
-        <button style={button} onClick={handleSignup}>Create Account</button>
+          <label style={label}>Password</label>
+          <input
+            type="password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ ...input, marginBottom: 20 }}
+          />
 
-        <p style={{ marginTop: 15, fontSize: 14 }}>
-          Do you already have Account?{" "}
-          <a href="/login" style={{ color: "#3b82f6" }}>
+          <button type="submit" disabled={loading} style={{ ...buttonStyle("primary"), width: "100%", opacity: loading ? 0.7 : 1 }}>
+            {loading ? "Creating..." : "Create Account"}
+          </button>
+        </form>
+
+        <p style={{ marginTop: 18, fontSize: 13, color: colors.muted, textAlign: "center" }}>
+          Already have an account?{" "}
+          <a href="/login" style={{ color: colors.blue, fontWeight: 600, textDecoration: "none" }}>
             Login
           </a>
         </p>
@@ -88,23 +118,10 @@ alert("Account created successfully!")
   )
 }
 
-const input = {
-  width: "100%",
-  padding: "10px",
-  marginBottom: 15,
-  borderRadius: 6,
-  border: "1px solid #334155",
-  background: "#0f172a",
-  color: "white",
-}
-
-const button = {
-  width: "100%",
-  padding: "10px",
-  borderRadius: 6,
-  border: "none",
-  background: "#3b82f6",
-  color: "white",
-  cursor: "pointer",
-  fontWeight: "bold",
+const label = {
+  display: "block",
+  fontSize: 12,
+  fontWeight: 600,
+  color: colors.muted,
+  marginBottom: 6,
 }

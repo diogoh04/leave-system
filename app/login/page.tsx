@@ -1,12 +1,22 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
+import { colors, input, buttonStyle } from "@/lib/theme"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
 
   async function handleLogin() {
+    if (!email || !password) {
+      alert("Fill in email and password")
+      return
+    }
+
+    setLoading(true)
+
     const res = await fetch("/api/login", {
       method: "POST",
       headers: {
@@ -16,6 +26,7 @@ export default function LoginPage() {
     })
 
     const data = await res.json()
+    setLoading(false)
 
     if (!res.ok) {
       alert(data.error || "Erro no login")
@@ -34,47 +45,68 @@ export default function LoginPage() {
   return (
     <div
       style={{
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#0f172a",
-        color: "white",
-        fontFamily: "Arial",
+        background: colors.bg,
+        padding: 20,
       }}
     >
       <div
         style={{
-          background: "#1e293b",
-          padding: 40,
-          borderRadius: 12,
-          width: 350,
-          boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
+          background: colors.card,
+          border: `1px solid ${colors.border}`,
+          borderRadius: 16,
+          padding: "36px 32px",
+          width: 360,
+          boxShadow: "0 4px 20px rgba(15, 23, 42, 0.08)",
         }}
       >
-        <h2 style={{ marginBottom: 20 }}>🔐 Login</h2>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+          <Image src="/Bidvest-noonanlogo.jpg" alt="Bidvest Noonan" width={160} height={72} priority style={{ height: "auto" }} />
+        </div>
 
-        <input
-  placeholder="Email"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-  style={input}
-/>
+        <h1 style={{ fontSize: 18, fontWeight: 700, color: colors.text, textAlign: "center", marginBottom: 4 }}>
+          Holiday Management
+        </h1>
+        <p style={{ fontSize: 13, color: colors.muted, textAlign: "center", marginBottom: 24 }}>
+          Sign in to manage your requests
+        </p>
 
-<input
-  type="password"
-  placeholder="Password"
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-  style={input}
-/>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleLogin()
+          }}
+        >
+          <label style={label}>Email</label>
+          <input
+            type="email"
+            placeholder="you@company.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ ...input, marginBottom: 14 }}
+          />
 
-        <button style={button} onClick={handleLogin}>Enter</button>
+          <label style={label}>Password</label>
+          <input
+            type="password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{ ...input, marginBottom: 20 }}
+          />
 
-        <p style={{ marginTop: 15, fontSize: 14 }}>
-          Do you have Account ?{" "}
-          <a href="/signup" style={{ color: "#3b82f6" }}>
-            Create Account 
+          <button type="submit" disabled={loading} style={{ ...buttonStyle("primary"), width: "100%", opacity: loading ? 0.7 : 1 }}>
+            {loading ? "Entering..." : "Enter"}
+          </button>
+        </form>
+
+        <p style={{ marginTop: 18, fontSize: 13, color: colors.muted, textAlign: "center" }}>
+          Don&apos;t have an account?{" "}
+          <a href="/signup" style={{ color: colors.blue, fontWeight: 600, textDecoration: "none" }}>
+            Create account
           </a>
         </p>
       </div>
@@ -82,23 +114,10 @@ export default function LoginPage() {
   )
 }
 
-const input = {
-  width: "100%",
-  padding: "10px",
-  marginBottom: 15,
-  borderRadius: 6,
-  border: "1px solid #334155",
-  background: "#0f172a",
-  color: "white",
-}
-
-const button = {
-  width: "100%",
-  padding: "10px",
-  borderRadius: 6,
-  border: "none",
-  background: "#22c55e",
-  color: "white",
-  cursor: "pointer",
-  fontWeight: "bold",
+const label = {
+  display: "block",
+  fontSize: 12,
+  fontWeight: 600,
+  color: colors.muted,
+  marginBottom: 6,
 }

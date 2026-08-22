@@ -1,89 +1,46 @@
-import Image from "next/image";
-
+import Image from "next/image"
+import { colors, buttonStyle } from "@/lib/theme"
 
 export default function Home() {
   return (
     <div
       style={{
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#1a2537", // dark moderno
-        color: "white",
-        fontFamily: "Arial",
+        background: colors.bg,
+        padding: 20,
       }}
     >
       <div
         style={{
-          textAlign: "center",
-          padding: 40,
+          background: colors.card,
+          border: `1px solid ${colors.border}`,
           borderRadius: 16,
-          background: "#f2f4f8",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.5)",
-          width: 380,
+          padding: "36px 32px",
+          width: 360,
+          boxShadow: "0 4px 20px rgba(15, 23, 42, 0.08)",
         }}
       >
-        {/* Logo */}
-        <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginBottom: 30,
-        }}
-        >
-          <Image
-          src="/bidvest-logo-final.png"
-          alt="Bidvest Noonan"
-          width={320}
-          height={110}
-          priority
-          style={{
-            marginBottom: 20,
-          }}
-          />
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+          <Image src="/Bidvest-noonanlogo.jpg" alt="Bidvest Noonan" width={160} height={72} priority style={{ height: "auto" }} />
         </div>
 
-        <h2 style={{ margin: 0, fontSize: 28, fontWeight:"bold", color: "#1a2537"}}>Leaves Request</h2>
-
-        <p style={{ color: "#1a2537", marginTop: 8 }}>
+        <h1 style={{ fontSize: 18, fontWeight: 700, color: colors.text, textAlign: "center", marginBottom: 4 }}>
+          Leaves Request
+        </h1>
+        <p style={{ fontSize: 13, color: colors.muted, textAlign: "center", marginBottom: 28 }}>
           Holiday Management
         </p>
 
-        <div style={{ display: "flex", gap: 10 }}>
-          <a href="/login" style={{ flex: 1 }}>
-            <button
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: 6,
-                border: "none",
-                background: "#0000b9",
-                color: "white",
-                cursor: "pointer",
-                fontWeight: "bold",
-              }}
-            >
-              Login
-            </button>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <a href="/login" style={{ textDecoration: "none" }}>
+            <button style={{ ...buttonStyle("primary"), width: "100%" }}>Login</button>
           </a>
 
-          <a href="/signup" style={{ flex: 1 }}>
-            <button
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: 6,
-                border: "none",
-                background: "#3b82f6",
-                color: "white",
-                cursor: "pointer",
-                fontWeight: "bold",
-              }}
-            >
-              Signup
-            </button>
+          <a href="/signup" style={{ textDecoration: "none" }}>
+            <button style={{ ...buttonStyle("secondary"), width: "100%" }}>Create Account</button>
           </a>
         </div>
       </div>

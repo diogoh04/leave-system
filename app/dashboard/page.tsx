@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import "react-datepicker/dist/react-datepicker.css"
 import "react-calendar/dist/Calendar.css"
 import dynamic from "next/dynamic"
 import Image from "next/image"
+import { colors, card, input, buttonStyle, badgeStyle } from "@/lib/theme"
 
 const Calendar = dynamic(() => import("react-calendar"), {
   ssr: false,
@@ -49,7 +49,7 @@ useEffect(() => {
     fetchFullDates()
     fetchMyLeaves()
   }, [])
-  
+
 const fetchUser = async () => {
   const token = localStorage.getItem("token")
 
@@ -113,7 +113,7 @@ const fetchUser = async () => {
   async function createLeave() {
     const token = localStorage.getItem("token")
 
-    if (!startDate || !endDate) {                
+    if (!startDate || !endDate) {
   alert("Select the dates")
   return
 }
@@ -196,15 +196,8 @@ const handleUpdateName = async () => {
 }
 
 return (
-  <div
-    style={{
-      minHeight: "100vh",
-      background: "linear-gradient(to bottom right, #0f172a, #1e293b)",
-      color: "white",
-      padding: "20px 16px",
-    }}
-  >
-    {/* HEADER */}
+  <div style={{ minHeight: "100vh", background: colors.bg }}>
+    {/* NAVBAR */}
     <div
       style={{
         display: "flex",
@@ -212,34 +205,46 @@ return (
         alignItems: "center",
         flexWrap: "wrap",
         gap: 12,
-        marginBottom: 24,
-        maxWidth: 1200,
-        margin: "0 auto 24px",
+        padding: "14px 28px",
+        background: colors.card,
+        borderBottom: `1px solid ${colors.border}`,
       }}
     >
-      <h1 style={{ fontSize: 20, fontWeight: 600 }}>User Dashboard</h1>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <Image
+          src="/Bidvest-noonanlogo.jpg"
+          alt="Bidvest Noonan"
+          width={120}
+          height={54}
+          priority
+          style={{ height: "auto" }}
+        />
+        <span style={{ fontSize: 15, fontWeight: 700, color: colors.text }}>Staff Portal</span>
+      </div>
+
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 6,
-            background: "rgba(255,255,255,0.08)",
-            padding: "5px 10px",
-            borderRadius: 8,
+            gap: 8,
+            background: colors.blueSoft,
+            padding: "6px 12px",
+            borderRadius: 999,
           }}
         >
           <div
             style={{
-              width: 20,
-              height: 20,
+              width: 22,
+              height: 22,
               borderRadius: "50%",
-              background: "#3b82f6",
+              background: colors.navy,
+              color: "#fff",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 10,
-              fontWeight: "bold",
+              fontSize: 11,
+              fontWeight: 700,
             }}
           >
             {user?.name?.charAt(0)}
@@ -248,14 +253,14 @@ return (
             <input
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
-              style={{ fontSize: 12, padding: "2px 4px", borderRadius: 4, border: "none" }}
+              style={{ fontSize: 12, padding: "3px 6px", borderRadius: 4, border: `1px solid ${colors.border}` }}
             />
           ) : (
-            <span style={{ fontSize: 12 }}>{user?.name}</span>
+            <span style={{ fontSize: 13, color: colors.text, fontWeight: 500 }}>{user?.name}</span>
           )}
           <button
             onClick={editing ? handleUpdateName : () => setEditing(true)}
-            style={{ background: "transparent", border: "none", cursor: "pointer", fontSize: 12, color: "white" }}
+            style={{ background: "transparent", border: "none", cursor: "pointer", fontSize: 13, color: colors.navy }}
           >
             {editing ? "✔" : "✏️"}
           </button>
@@ -265,16 +270,7 @@ return (
             localStorage.removeItem("token")
             window.location.href = "/login"
           }}
-          style={{
-            fontSize: 12,
-            padding: "6px 12px",
-            borderRadius: 8,
-            border: "none",
-            background: "#fa2828",
-            color: "#fff",
-            cursor: "pointer",
-            fontWeight: 600,
-          }}
+          style={buttonStyle("secondary")}
         >
           Logout
         </button>
@@ -282,34 +278,25 @@ return (
     </div>
 
     {/* COLUNA ÚNICA: sempre vertical, no mobile e no desktop */}
-    <div className="main-col">
-      <Image
-        src="/Bidvest-noonanlogo.jpg"
-        alt="Bidvest Noonan"
-        width={100}
-        height={7}
-        priority
-        style={{ borderRadius: 8 }}
-      />
-
-      <div className="card">
-        <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: "#0f172a" }}>
+    <div className="main-col" style={{ padding: "24px 16px 40px" }}>
+      <div style={{ ...card, padding: 20, width: "100%" }}>
+        <h3 style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: colors.text }}>
           How to use this site
         </h3>
-        <ol style={{ fontSize: 12, color: "#475569", paddingLeft: 16, lineHeight: 1.6, margin: 0 }}>
+        <ol style={{ fontSize: 12, color: colors.muted, paddingLeft: 16, lineHeight: 1.6, margin: 0 }}>
           <li>1. Select the dates on the calendar — start date and end date.</li>
           <li>2. Your request must be made at least 15 days in advance.</li>
-          <li>3. Only 3 team leaders can be on holiday on the same day.</li>
-          <li>4. Colors for dates on the calendar: white is available; yellow has a team leader on this day, but is still available; red is unavailable..</li>
+          <li>3. Up to 3 team leaders can be on holiday on the same day .</li>
+          <li>4. Colors for dates on the calendar: white is available; yellow has a team leader on this day, but is still available; red is unavailable.</li>
           <li>5. Your request will remain pending until approved or declined by your supervisor.</li>
         </ol>
-        <p style={{ fontSize: 11, color: "#717c8b", marginTop: 10, fontStyle: "italic" }}>
+        <p style={{ fontSize: 11, color: colors.muted, marginTop: 10, fontStyle: "italic" }}>
           If you have any questions, contact your supervisor.
         </p>
       </div>
 
-      <div className="card calendar-card">
-        <p style={{ marginBottom: 12, fontSize: 14, color: "#57606d", textAlign: "center", fontWeight: 500 }}>
+      <div style={{ ...card, padding: 20, display: "flex", flexDirection: "column", alignItems: "center", width: "fit-content", maxWidth: "100%" }}>
+        <p style={{ marginBottom: 12, fontSize: 14, color: colors.muted, textAlign: "center", fontWeight: 500 }}>
           Select the dates on the calendar.
         </p>
         <Calendar
@@ -352,7 +339,7 @@ return (
                 style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4, marginTop: 4, cursor: "pointer" }}
                 title={users.map((u) => `${u.name} (${u.type})`).join("\n")}
               >
-                <div style={{ width: 6, height: 6, borderRadius: "50%", background: count >= 3 ? "#ef4444" : "#3b82f6" }} />
+                <div style={{ width: 6, height: 6, borderRadius: "50%", background: count >= 3 ? colors.danger : colors.blue }} />
                 <span style={{ fontSize: 10 }}>{count}</span>
               </div>
             )
@@ -360,35 +347,35 @@ return (
         />
       </div>
 
-      <div className="card form-card">
-        <h2 style={{ marginBottom: 15, color: "#1e293b", fontSize: 16 }}>New Request</h2>
+      <div style={{ ...card, padding: 20, width: "100%" }}>
+        <h2 style={{ marginBottom: 15, color: colors.text, fontSize: 16 }}>New Request</h2>
 
         <div style={{ marginBottom: 10 }}>
-          <label style={{ fontSize: 14, color: "#475569" }}>Start Date</label>
-          <input type="date" readOnly value={formatInputDate(startDate)} onChange={(e) => setStartDate(new Date(e.target.value))} />
+          <label style={{ fontSize: 14, color: colors.muted }}>Start Date</label>
+          <input type="date" readOnly value={formatInputDate(startDate)} onChange={(e) => setStartDate(new Date(e.target.value))} style={{ ...input, marginTop: 5 }} />
           {startDate && (
-            <p style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cbd5e1", marginTop: 5, background: "#f8fafc", color: "#0f172a", fontSize: 14 }}>
+            <p style={{ width: "100%", padding: 8, borderRadius: 6, border: `1px solid ${colors.border}`, marginTop: 5, background: colors.bg, color: colors.text, fontSize: 14, boxSizing: "border-box" }}>
               {formatDate(startDate.toISOString())}
             </p>
           )}
         </div>
 
         <div style={{ marginBottom: 15 }}>
-          <label style={{ fontSize: 14, color: "#475569" }}>End Date</label>
-          <input type="date" readOnly value={formatInputDate(endDate)} onChange={(e) => setEndDate(new Date(e.target.value))} />
+          <label style={{ fontSize: 14, color: colors.muted }}>End Date</label>
+          <input type="date" readOnly value={formatInputDate(endDate)} onChange={(e) => setEndDate(new Date(e.target.value))} style={{ ...input, marginTop: 5 }} />
           {endDate && (
-            <p style={{ width: "100%", padding: 8, borderRadius: 6, border: "1px solid #cbd5e1", marginTop: 5, background: "#f8fafc", color: "#0f172a", fontSize: 14 }}>
+            <p style={{ width: "100%", padding: 8, borderRadius: 6, border: `1px solid ${colors.border}`, marginTop: 5, background: colors.bg, color: colors.text, fontSize: 14, boxSizing: "border-box" }}>
               {formatDate(endDate.toISOString())}
             </p>
           )}
         </div>
 
         <div style={{ marginBottom: 15 }}>
-          <label style={{ fontSize: 14, color: "#475569" }}>Type</label>
+          <label style={{ fontSize: 14, color: colors.muted }}>Type</label>
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #cbd5e1", marginTop: 5, background: "#f1f5f9", color: "#0f172a", fontSize: 14 }}
+            style={{ ...input, marginTop: 5 }}
           >
             <option value="Paid">💰 Paid</option>
             <option value="Unpaid">🚫 Unpaid</option>
@@ -398,65 +385,50 @@ return (
 
         <button
           onClick={createLeave}
-          style={{ width: "100%", padding: 12, background: "#3b82f6", color: "white", border: "none", borderRadius: 8, fontWeight: "bold", cursor: "pointer" }}
+          style={{ ...buttonStyle("primary"), width: "100%" }}
         >
           Create Request
         </button>
       </div>
 
-      <div className="card requests-card">
-        <h2 style={{ fontSize: 16, marginBottom: 12, color: "#1e293b" }}>My Requests</h2>
+      <div style={{ ...card, padding: 20, width: "100%" }}>
+        <h2 style={{ fontSize: 16, marginBottom: 12, color: colors.text }}>My Requests</h2>
 
         {leaves.length === 0 && (
-          <p style={{ fontSize: 13, color: "#94a3b8" }}>You have no requests yet.</p>
+          <p style={{ fontSize: 13, color: colors.muted }}>You have no requests yet.</p>
         )}
 
         {leaves.map((leave: any) => (
-          <div key={leave.id} style={{ marginBottom: 10, padding: 12, background: "#f1f5f9", borderRadius: 10, position: "relative" }}>
+          <div key={leave.id} style={{ marginBottom: 10, padding: 12, background: colors.bg, border: `1px solid ${colors.border}`, borderRadius: 10, position: "relative" }}>
             <button
               onClick={() => {
                 if (confirm("Are you sure you want to delete this request?")) deleteLeave(leave.id)
               }}
-              style={{ position: "absolute", top: 10, right: 10, background: "transparent", border: "none", color: "#ef4444", fontSize: 13, cursor: "pointer" }}
+              style={{ position: "absolute", top: 10, right: 10, background: "transparent", border: "none", color: colors.danger, fontSize: 13, cursor: "pointer" }}
             >
               Delete 🗑️
             </button>
-            <b style={{ fontSize: 13, color: "#0f172a" }}>{leave.user?.name}</b>
-            <div style={{ fontSize: 13, color: "#475569" }}>
+            <b style={{ fontSize: 13, color: colors.text }}>{leave.user?.name}</b>
+            <div style={{ fontSize: 13, color: colors.muted }}>
               {formatDate(leave.startDate)} → {formatDate(leave.endDate)}
             </div>
-            <div style={{ fontSize: 13, color: "#475569" }}>Status: {leave.status}</div>
-            <div style={{ fontSize: 13, color: "#475569" }}>Type: {leave.type}</div>
+            <div style={{ fontSize: 13, color: colors.muted, marginTop: 4 }}>
+              <span style={badgeStyle(leave.status)}>{leave.status}</span>
+            </div>
+            <div style={{ fontSize: 13, color: colors.muted, marginTop: 4 }}>Type: {leave.type}</div>
           </div>
         ))}
       </div>
     </div>
 
     <style jsx>{`
-      .card {
-        background: white;
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
       .main-col {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 20px;
-        max-width: 400px;
+        max-width: 420px;
         margin: 0 auto;
-      }
-      .calendar-card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: fit-content;
-        max-width: 100%;
-      }
-      .form-card,
-      .requests-card {
-        width: 100%;
       }
     `}</style>
   </div>
